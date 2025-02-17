@@ -5,6 +5,7 @@ import { randomMounts } from '../common/functions.tsx';
 import Point from './item/Point.tsx';
 import MainLine from "./Line/mainLine.tsx";
 import SystemLine from "./Line/systemLine.tsx";
+import { amountPoints } from "../common/constants.tsx";
 
 export default function Layout() {
     const start = {
@@ -16,10 +17,8 @@ export default function Layout() {
         y: 500
     }
     // const amountPositions = randomMounts(100, window.innerWidth, window.innerHeight)
-    const amountPositions = [{
-        x: 790,
-        y: 75
-    }]
+    // console.log(amountPositions)
+    const amountPositions = amountPoints
     function renderAmount (a: any) {
         return <Obstacle position={a} />
     }
@@ -29,10 +28,13 @@ export default function Layout() {
         amounts.push(renderAmount(amountPositions[i]))
     }
     return (
-        <div class="layout">
+        <div className="layout">
             <Point position={start} diameter={20}/>
             <Circle position={end} diameter={20}/>
+            <div className="obstacle-swapper">
             {amounts}
+            </div>
+           
             <MainLine obstacles={amountPositions}/>
             <SystemLine />
         </div>

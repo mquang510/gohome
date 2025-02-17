@@ -1,7 +1,7 @@
 import React from "react";
 import Line from '../item/Line.tsx';
 import { findingRoutes } from '../../common/functions.tsx'
-import { defaultLength, systemDirectRight } from '../../common/constants.tsx';
+import { defaultLength, systemDirectBottom, systemDirectRight } from '../../common/constants.tsx';
 import Point from "../../interfaces/Point.tsx"
 
 export default function MainLine({ obstacles }) {
@@ -14,9 +14,11 @@ export default function MainLine({ obstacles }) {
         y: 500
       }
     const positions = findingRoutes(start, end, defaultLength, obstacles, systemDirectRight)
-  
+    console.log(positions)
+    // const positionBottoms = findingRoutes(start, end, defaultLength, obstacles, systemDirectBottom)
+    // const positions = positionRights.length < positionBottoms.length ? positionRights : positionBottoms
     function renderLine (a: Point, b: Point) {
-      return <Line start={a} end={b} />
+      return <Line start={a} end={b} attr={positions.length - 1} />
     }
     const lines: any[] = []
     for (var i = 0; i < positions.length - 1; i++) {
