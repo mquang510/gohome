@@ -9,9 +9,10 @@ import { defaultObstacleEasy,
     defaultObstacleNormal, 
     defaultObstacleSuperHard 
 } from "../common/constants.tsx"
+import PointInterface from "../interfaces/Point.tsx"
 
 export default function Layout() {
-    const start = {
+    const start: PointInterface = {
         x: 50,
         y: 50
     }

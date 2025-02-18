@@ -8,12 +8,12 @@ import { useState, useEffect } from 'react'
 import Image from '../item/Image.tsx'
 import Point from '../item/Point.tsx'
 
-export default function MainLine({ start }) {
+export default function MainLine({ start }:any) {
   const [points, setPoints] = useState([start]);
   useEffect(() => {
     window.addEventListener("keydown", keydown, false);
   }, []);  
-  function keydown(event) {
+  function keydown(event : any) {
     if (event.keyCode !== keydownEnum.arrowUp &&
         event.keyCode !== keydownEnum.arrowDown &&
         event.keyCode !== keydownEnum.arrowLeft &&
