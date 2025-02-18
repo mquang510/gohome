@@ -9,22 +9,28 @@
         }
         .main-line {
             .line {
-                border: 1px solid black;
+                border: 1px solid limegreen;
                 position: absolute;
                 z-index: 2;
             }
+        }
+
+        .image {
+            position: absolute;
+            z-index: 4;
+            width: 20px;
+            height: 20px;
         }
         
         .circle {
             position: absolute;
             border-radius: 10px;
-            background-color: black;
+            background-color: red;
             z-index: 3;
         }
         
         .obstacle {
             position: absolute;
-            background-color: blue;
             z-index: 2;
         }
         

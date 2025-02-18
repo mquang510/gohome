@@ -1,13 +1,13 @@
 import React from "react"
 import { obstacleLength } from "../../common/constants.tsx"
 
-export default function Obstacle({ position }) {
+export default function Obstacle({ obstacle }) {
     const style = {
-        top: position.y,
-        left: position.x,
+        top: obstacle.y,
+        left: obstacle.x,
         width: obstacleLength,
         height: obstacleLength
     }
 
-    return <div className="obstacle" style={style}></div>
+    return <img src={obstacle.src} className="obstacle" style={style}></img>
 }

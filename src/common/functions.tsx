@@ -1,6 +1,6 @@
 import MountInterface from "../interfaces/Mount"
 import Point from "../interfaces/Point"
-import { defaultLength, direction, obstacleLength } from "./constants.tsx"
+import { defaultLength, direction, images, obstacleLength } from "./constants.tsx"
 
 function onSegment(p, q, r) 
 { 
@@ -61,9 +61,7 @@ function doIntersect(p1, q1, p2, q2)
     return false; // Doesn't fall in any of the above cases 
 } 
 
-function validateLine (start: Point, end: Point, defaultLength: number, obstacles: any) {
-    const dX: number = end.x - start.x;
-    const dY: number = end.y - start.y;
+function validateLine (start: Point, end: Point, obstacles: any) {
     const a = obstacles.find((item) => {
         const b = doIntersect(start, end, item, {
             x: item.x + obstacleLength,
@@ -139,7 +137,7 @@ function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles
         if (nextPoint.x === start.x && nextPoint.y === start.y) continue
         if (points.find((x) => nextPoint.x === x.x && nextPoint.y === x.y)) continue
         if (ignorePoints.find((x) => nextPoint.x === x.x && nextPoint.y === x.y)) continue
-        result = validateLine(start, nextPoint, defaultLength, obstacles)
+        result = validateLine(start, nextPoint, obstacles)
         if (result) {
             break
         }
@@ -176,21 +174,24 @@ function findingRoutes(start: Point, end: Point, defaultLength: number, obstacle
     addNextPoint(positions, start, end, defaultLength, obstacles, directionSolution)
     return positions
 }
+
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function createAmount (maxX, maxY) {
+function createAmount (maxX, maxY) :MountInterface {
     const x = randomNumber(50, maxX - 50)
     const y = randomNumber(50, maxY - 50)
+    const imageIndex = randomNumber(0, images.length - 1)
     return {
         x: x,
-        y: y
+        y: y,
+        src: images[imageIndex]
     }
 }
 
 function randomMounts(number = 10, x = 0, y = 0) {
-    const mounts: Point[] = []
+    const mounts: MountInterface[] = []
     for (let i = 1; i < number; i++) {
         mounts.push(createAmount(x, y))
     }

@@ -1,4 +1,5 @@
 import './scss/app.scss';
+import './scss/animation.scss';
 import Layout from './component/Layout.tsx';
 function App() {
   
