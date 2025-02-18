@@ -12,6 +12,8 @@
                 border: 1px solid limegreen;
                 position: absolute;
                 z-index: 2;
+                -webkit-transition: top 1s linear;
+                transition: top 1s ease-out;
             }
         }
 

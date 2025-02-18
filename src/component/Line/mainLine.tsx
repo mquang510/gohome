@@ -2,7 +2,7 @@ import React from "react"
 import isEqual from 'lodash/isEqual'
 import Line from '../item/Line.tsx'
 import { findingRoutes } from '../../common/functions.tsx'
-import { defaultLength, systemDirectBottom, systemDirectRight, keydownEnum } from '../../common/constants.tsx'
+import { defaultLength, systemDirectBottom, systemDirectRight, keydownEnum, defaultDiameterStartPoint } from '../../common/constants.tsx'
 import PointInterface from "../../interfaces/Point.tsx"
 import { useState, useEffect } from 'react'
 import Image from '../item/Image.tsx'
@@ -78,14 +78,12 @@ export default function MainLine({ start }) {
         <div className="main-line">
             {lines}
         </div>
-        <div>
-          <Image 
-            position={lastestPoint}
-            diameter={20}
-            src={"/image/people.png"}
-          />
-          {!isEqual(start, lastestPoint) ? <Point position={start} diameter={20}/> : '' }
-        </div>
+        <Image 
+          position={lastestPoint}
+          diameter={defaultDiameterStartPoint}
+          src={"/image/people.png"}
+        />
+        {!isEqual(start, lastestPoint) ? <Point position={start} diameter={defaultDiameterStartPoint}/> : '' }
       </div>
     )
 }

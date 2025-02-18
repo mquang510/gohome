@@ -5,6 +5,7 @@ export const defaultObstacleSuperHard = 200
 export const defaultObstacleHard = 100
 export const defaultObstacleNormal = 50
 export const defaultObstacleEasy = 20
+export const defaultDiameterStartPoint = 20
 export enum imageEnum {
     dog = "/image/dog.png",
     dinosaur = "/image/dinosaur.png",

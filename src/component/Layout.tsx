@@ -23,7 +23,7 @@ export default function Layout() {
     console.log(amountPositions)
     // const amountPositions = amountPoints
     function renderAmount (a: any) {
-        return <Obstacle obstacle={a} />
+        return <Obstacle obstacle={a} key={'test'} />
     }
 
     const amounts: any[] = []

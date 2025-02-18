@@ -1,7 +1,7 @@
 import React from "react"
 import { obstacleLength } from "../../common/constants.tsx"
 
-export default function Obstacle({ obstacle }) {
+export default function Obstacle({ obstacle, key }) {
     const style = {
         top: obstacle.y,
         left: obstacle.x,
@@ -9,5 +9,5 @@ export default function Obstacle({ obstacle }) {
         height: obstacleLength
     }
 
-    return <img src={obstacle.src} className="obstacle" style={style}></img>
+    return <img src={obstacle.src} key={key} className="obstacle" style={style}></img>
 }

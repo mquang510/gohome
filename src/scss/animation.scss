@@ -1,14 +1,46 @@
-@keyframes fadein {
+@keyframes fadeinLineLeft {
     0% {
         opacity: 0;
+        width: 0;
     }
     100% {
         opacity: 1;
+        width: 50;
+    }
+}
+
+@keyframes fadeinLineTop {
+    0% {
+        opacity: 0;
+        height: 0;
+    }
+    100% {
+        opacity: 1;
+        height: 50;
+    }
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+        width: 0;
+    }
+    100% {
+        opacity: 1;
+        width: 40;
     }
 }
 
 .image {
-    animation: fadein 1100ms;
+    animation: fadein 1000ms linear;
 }
   
+.main-line .line.left {
+    animation: fadeinLineLeft 1000ms ease;
+}
+
+.main-line .line.top {
+    animation: fadeinLineTop 1000ms ease;
+}
+
   
