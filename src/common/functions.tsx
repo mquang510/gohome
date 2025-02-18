@@ -1,4 +1,4 @@
-import MountInterface from "../interfaces/Mount"
+import ObstacleInterface from "../interfaces/Obstacle.tsx"
 import Point from "../interfaces/Point"
 import { defaultLength, direction, images, obstacleLength } from "./constants.tsx"
 
@@ -179,9 +179,9 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function createAmount (maxX, maxY) :MountInterface {
-    const x = randomNumber(50, maxX - 50)
-    const y = randomNumber(50, maxY - 50)
+function createAmount (maxX, maxY):ObstacleInterface {
+    const x = randomNumber(0, maxX - 50)
+    const y = randomNumber(0, maxY - 50)
     const imageIndex = randomNumber(0, images.length - 1)
     return {
         x: x,
@@ -191,7 +191,7 @@ function createAmount (maxX, maxY) :MountInterface {
 }
 
 function randomMounts(number = 10, x = 0, y = 0) {
-    const mounts: MountInterface[] = []
+    const mounts: ObstacleInterface[] = []
     for (let i = 1; i < number; i++) {
         mounts.push(createAmount(x, y))
     }

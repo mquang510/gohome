@@ -2,9 +2,13 @@ import React from "react"
 import Circle from './item/Circle.tsx'
 import Obstacle from './item/Obstacle.tsx'
 import { randomMounts } from '../common/functions.tsx'
-import MainLine from "./Line/mainLine.tsx"
-import SystemLine from "./Line/systemLine.tsx"
-import { defaultObstacleEasy, defaultObstacleHard, defaultObstacleNormal, defaultObstacleSuperHard } from "../common/constants.tsx"
+import MainLine from "./line/mainLine.tsx"
+import SystemLine from "./line/systemLine.tsx"
+import { defaultObstacleEasy, 
+    defaultObstacleHard, 
+    defaultObstacleNormal, 
+    defaultObstacleSuperHard 
+} from "../common/constants.tsx"
 
 export default function Layout() {
     const start = {
@@ -15,7 +19,7 @@ export default function Layout() {
         x: 800,
         y: 500
     }
-    const amountPositions = randomMounts(defaultObstacleSuperHard, window.innerWidth, window.innerHeight)
+    const amountPositions = randomMounts(defaultObstacleHard, window.innerWidth, window.innerHeight)
     console.log(amountPositions)
     // const amountPositions = amountPoints
     function renderAmount (a: any) {
@@ -30,7 +34,7 @@ export default function Layout() {
         <div className="layout">
             <Circle position={end} diameter={20}/>
             <div className="obstacle-swapper">
-            {amounts}
+                {amounts}
             </div>
             <MainLine start={start}/>
             <SystemLine />
