@@ -5,7 +5,18 @@
     }
     100% {
         opacity: 1;
-        width: 50;
+        width: 50px;
+    }
+}
+
+@keyframes fadeinLineRight {
+    0% {
+        opacity: 0;
+        width: 50px;
+    }
+    100% {
+        opacity: 1;
+        width: 0;
     }
 }
 
@@ -16,7 +27,18 @@
     }
     100% {
         opacity: 1;
-        height: 50;
+        height: 50px;
+    }
+}
+
+@keyframes fadeinLineBottom {
+    0% {
+        opacity: 0;
+        height: 50px;
+    }
+    100% {
+        opacity: 1;
+        height: 0px;
     }
 }
 
@@ -27,20 +49,29 @@
     }
     100% {
         opacity: 1;
-        width: 40;
+        width: 20px;
     }
 }
 
 .image {
-    animation: fadein 1000ms linear;
+    animation: fadein 500ms linear;
 }
   
 .main-line .line.left {
-    animation: fadeinLineLeft 500ms ease;
+    animation: fadeinLineLeft 250ms ease;
+}
+
+.main-line .line.right {
+    animation: fadeinLineRight 250ms ease reverse;
 }
 
 .main-line .line.top {
-    animation: fadeinLineTop 500ms ease;
+    animation: fadeinLineTop 250ms ease;
 }
+
+.main-line .line.bottom {
+    animation: fadeinLineBottom 250ms ease reverse;
+}
+
 
   
