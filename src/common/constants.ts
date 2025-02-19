@@ -8,13 +8,16 @@ export const defaultObstacleEasy = 20
 export const defaultDiameterStartPoint = 20
 export const windowWidth = window.innerWidth
 export const windowHeight = window.innerHeight
+export const windowMinWidth = 0
+export const windowMinHeight = 0
 export const windowMargin = 2
-export const windowKeyDownEvent = "keydown"
+export const windowKeyDownEvent = 'keydown'
+export const px = 'px'
 export enum imageEnum {
-    dog = "/image/dog.png",
-    dinosaur = "/image/dinosaur.png",
-    tiger = "/image/tiger.png",
-    tyrannosaurus = "/image/tyrannosaurus.png",
+    dog = '/image/dog.png',
+    dinosaur = '/image/dinosaur.png',
+    tiger = '/image/tiger.png',
+    tyrannosaurus = '/image/tyrannosaurus.png',
 }
 export enum direction {
     top = 0,
@@ -23,10 +26,10 @@ export enum direction {
     left = 3
 }
 export enum keydownEnum {
-    arrowLeft = "ArrowLeft",
-    arrowUp = "ArrowUp",
-    arrowRight = "ArrowRight",
-    arrowDown = "ArrowDown"
+    arrowLeft = 'ArrowLeft',
+    arrowUp = 'ArrowUp',
+    arrowRight = 'ArrowRight',
+    arrowDown = 'ArrowDown'
 }
 
 export const images = [imageEnum.dinosaur, imageEnum.dog, imageEnum.tiger, imageEnum.tyrannosaurus]

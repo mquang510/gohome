@@ -58,19 +58,19 @@
 }
   
 .main-line .line.left {
-    animation: fadeinLineLeft 250ms ease;
+    animation: fadeinLineLeft 100ms ease;
 }
 
 .main-line .line.right {
-    animation: fadeinLineRight 250ms ease reverse;
+    animation: fadeinLineRight 110ms ease reverse;
 }
 
 .main-line .line.top {
-    animation: fadeinLineTop 250ms ease;
+    animation: fadeinLineTop 110ms ease;
 }
 
 .main-line .line.bottom {
-    animation: fadeinLineBottom 250ms ease reverse;
+    animation: fadeinLineBottom 100ms ease reverse;
 }
 
 

@@ -31,12 +31,6 @@ export default function Layout() {
     }
     const [points, setPoints] = useState([start])
     const [obstacles, setObstacles] = useState<ObstacleInterface[]>([])
-
-    useEffect(() => {
-        var obstacles = randomObstacles(defaultObstacleHard, windowWidth, windowHeight)
-        setObstacles(obstacles)
-        window.addEventListener(windowKeyDownEvent, keydown);
-    }, []);  
     function keydown(event: KeyboardEvent) {
         if (points.length === 0) {
             points.push(start)
@@ -52,6 +46,12 @@ export default function Layout() {
             setPoints([...points])
         }
     }
+    useEffect(() => {
+        var obstacles = randomObstacles(defaultObstacleHard, windowWidth, windowHeight)
+        setObstacles(obstacles)
+        window.addEventListener(windowKeyDownEvent, keydown);
+    }, []);  
+    
     function renderAmount (a: any) {
         return <Obstacle obstacle={a} />
     }
@@ -71,7 +71,6 @@ export default function Layout() {
             <SystemLine />
             <Image
                 position={lastestPoint}
-                diameter={defaultDiameterStartPoint}
                 src={"/image/people.png"}
                 />
             {!isEqual(start, lastestPoint) ? <Point position={start} diameter={defaultDiameterStartPoint}/> : '' }

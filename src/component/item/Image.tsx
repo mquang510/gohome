@@ -1,25 +1,23 @@
-import React from "react"
-import { useState, useEffect } from 'react'
+import React, { useRef, useEffect } from "react"
+import { defaultDiameterStartPoint, px } from "../../common/constants.ts"
 
-export default function Image({ position, diameter, src }) {
-    const [text, setText] = useState(randomText())
-    const [style, setStyle] = useState({ 
-        top: 0,
-        left: 0
-    })
+export default function Image({ position, src }) {
+    const ref = useRef<HTMLImageElement>(null)
+    function getValue (a:number) {
+        return a - defaultDiameterStartPoint/2 + 1
+    }
+    const style = { 
+        top: getValue(position.y),
+        left: getValue(position.x),
+    }
 
     useEffect(() => {
-        setText(randomText())
-        setStyle({
-            top: position.y - diameter/2 + 1,
-            left: position.x - diameter/2 + 1
-        })
-    }, [position, setText, setStyle])
+        if (!ref.current) return
+        ref.current.style.top = `${getValue(position.y)} ${px}`
+        ref.current.style.left = `${getValue(position.x)} ${px}`
+    }, [position])
     
-    function randomText() {
-        return Math.random() + ''
-    }
     return (<div className="image-swapper">
-        <img key={text} src={src} className="image" style={style}></img>
+        <img ref={ref} src={src} className="image" style={style}></img>
     </div>)
 }
