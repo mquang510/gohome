@@ -1,10 +1,6 @@
 
 export const defaultLength = 50
 export const obstacleLength = 40
-export const defaultObstacleSuperHard = 200
-export const defaultObstacleHard = 100
-export const defaultObstacleNormal = 50
-export const defaultObstacleEasy = 20
 export const defaultDiameterStartPoint = 20
 export const windowWidth = window.innerWidth
 export const windowHeight = window.innerHeight
@@ -13,6 +9,19 @@ export const windowMinHeight = 0
 export const windowMargin = 2
 export const windowKeyDownEvent = 'keydown'
 export const px = 'px'
+export const isFirstTimeKey = "isFirstTime"
+export enum obstacleLevel {
+    easy = 20,
+    normal = 50,
+    hard = 100,
+    superHard = 200
+}
+export enum animalRunningTime {
+    easy = 5000,
+    normal = 3000,
+    hard = 2000,
+    superHard = 1000
+}
 export enum imageEnum {
     dog = '/image/dog.png',
     dinosaur = '/image/dinosaur.png',

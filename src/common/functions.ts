@@ -1,7 +1,7 @@
 import ObstacleInterface from "../interfaces/Obstacle.ts"
 import Point from "../interfaces/Point.ts"
 import { defaultLength, direction, images, keydownEnum, obstacleLength, windowHeight, windowMinHeight, windowMinWidth, windowWidth } from "./constants.ts"
-
+import _ from 'lodash'
 function onSegment(p, q, r) 
 { 
     if (q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) && 
@@ -190,9 +190,9 @@ function createObstacle (maxX: number, maxY: number):ObstacleInterface {
     }
 }
 
-function randomObstacles(number = 0, x = 0, y = 0) {
+function randomObstacles(total = 0, x = 0, y = 0) {
     const obstacles: ObstacleInterface[] = []
-    for (let i = 0; i < number; i++) {
+    for (let i = 0; i < total; i++) {
         obstacles.push(createObstacle(x, y))
     }
 
@@ -235,25 +235,31 @@ function createSystemLines(pointStart: Point, pointEnd : Point, diameter: number
     return lines
 }
 
-function validateOutScreen(point: Point) {
-    if (point?.x > windowWidth ||
+function validateIsOutScreen(point: Point, obstacleLength = 0) {
+    if (point?.x > windowWidth - obstacleLength * 1.5 ||
         point?.x < windowMinWidth ||
-        point?.y > windowHeight ||
-        point?.y < windowMinHeight) return false
-    return true
+        point?.y > windowHeight - obstacleLength * 1.5 ||
+        point?.y < windowMinHeight) {
+            return true
+        }
+    return false
 }
 
 function createNextPointByKeydownEvent(event: KeyboardEvent, lastPoint: Point) {
-    let nextPoint
     if (event.key !== keydownEnum.arrowUp &&
         event.key !== keydownEnum.arrowDown &&
         event.key !== keydownEnum.arrowLeft &&
         event.key !== keydownEnum.arrowRight
     ) {
-        return nextPoint
-    }
-    
-    switch(event.key) {
+        return
+    }   
+
+    return  createNextPoint(event.key, lastPoint)
+}
+
+function createNextPoint(key: string, lastPoint: Point) {
+    let nextPoint
+    switch(key) {
         case keydownEnum.arrowUp:
             nextPoint = {
                 x: lastPoint.x,
@@ -279,9 +285,24 @@ function createNextPointByKeydownEvent(event: KeyboardEvent, lastPoint: Point) {
             }
             break
     }
-
-    if (!validateOutScreen(nextPoint)) return null
     return nextPoint
+}
+
+function changePositionAnimals(obstacles: ObstacleInterface[]) {
+    if (!obstacles?.length) return
+
+    const keys = _.keys(keydownEnum)
+    const keyDownValues = _.map(keys, (key) => keydownEnum[key])
+    _.each(obstacles, (obstacle) => {
+        const indexRandom = randomNumber(0, keys.length - 1)
+        if (keyDownValues[indexRandom]) {
+            const nextPoint = createNextPoint(keyDownValues[indexRandom], obstacle,)
+            if (!!nextPoint && !validateIsOutScreen(nextPoint, obstacleLength)) {
+                obstacle.x = nextPoint.x
+                obstacle.y = nextPoint.y
+            }
+        }
+    })
 }
 
 export {
@@ -290,5 +311,6 @@ export {
     findingRoutes,
     createSystemLines,
     createNextPointByKeydownEvent,
-    validateOutScreen
+    validateIsOutScreen,
+    changePositionAnimals
 }

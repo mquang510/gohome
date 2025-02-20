@@ -36,6 +36,8 @@
         .obstacle {
             position: absolute;
             z-index: 2;
+            transition-duration: 100ms;
+            transition-timing-function: linear;
         }
         
         .point {

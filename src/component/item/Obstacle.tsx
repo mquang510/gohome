@@ -1,7 +1,8 @@
-import React from "react"
-import { obstacleLength } from "../../common/constants.ts"
+import React, { useEffect, useRef } from "react"
+import { obstacleLength, px } from "../../common/constants.ts"
 
 export default function Obstacle({ obstacle }) {
+    const ref = useRef<HTMLImageElement>(null)
     const style = {
         top: obstacle.y,
         left: obstacle.x,
@@ -9,5 +10,11 @@ export default function Obstacle({ obstacle }) {
         height: obstacleLength
     }
 
-    return <img src={obstacle.src} className="obstacle" style={style}></img>
+    useEffect(() => {
+        if (!ref.current) return
+        ref.current.style.top = `${obstacle.y} ${px}`
+        ref.current.style.left = `${obstacle.x} ${px}`
+    }, [obstacle])
+
+    return <img ref={ref} src={obstacle.src} className="obstacle" style={style}></img>
 }
