@@ -1,7 +1,7 @@
 import React from "react"
 import Circle from './item/Circle.tsx'
 import Obstacle from './item/Obstacle.tsx'
-import { changePositionAnimals, createEndPoint, createNextPointByKeydownEvent, randomObstacles, validateIsOutScreen } from '../common/functions.ts'
+import { changePositionAnimals, convertKeyDownToDirect, createEndPoint, createNextPointByKeydownEvent, randomObstacles, validateIsOutScreen, validateLine1 } from '../common/functions.ts'
 import MainLine from "./line/mainLine.tsx"
 import SystemLine from "./line/systemLine.tsx"
 import { 
@@ -11,7 +11,9 @@ import {
     windowKeyDownEvent,
     isFirstTimeKey,
     obstacleLevel,
-    animalRunningTime
+    animalRunningTime,
+    direction,
+    amountPoints
 } from "../common/constants.ts"
 import { useState, useEffect } from 'react'
 import Image from './item/Image.tsx'
@@ -30,7 +32,8 @@ export default function Layout() {
     // const end: PointInterface = createEndPoint()
     const localStorageIsFirstTime = localStorage.getItem(isFirstTimeKey)
     const isFirstTimeDefault = !!localStorageIsFirstTime ? JSON.parse(localStorageIsFirstTime) : true
-    const [end, setEndPoint] = useState(createEndPoint())
+    const defaultEndPoint = createEndPoint()
+    const [end, setEndPoint] = useState(defaultEndPoint)
     const [points, setPoints] = useState([start])
     const [isFirstTime, setFirstTime] = useState(isFirstTimeDefault)
     const [isCompleted, setCompleted] = useState(false)
@@ -45,17 +48,28 @@ export default function Layout() {
         
         const lastPoint = points[points.length - 1]
         const nextPoint = createNextPointByKeydownEvent(event, lastPoint)
-        if (!!nextPoint && !validateIsOutScreen(nextPoint)) {
-            points.push(nextPoint)
-            if (isEqual(nextPoint, end)) {
-                window.removeEventListener(windowKeyDownEvent, keydown);
+        if (!!nextPoint) {
+            const result = validateLine1(lastPoint, nextPoint, obstacles, [convertKeyDownToDirect(event.key)])
+            if (!result.valid) {
+                if (!!result.intersectPoint) points.push(result.intersectPoint)
+                window.removeEventListener(windowKeyDownEvent, keydown)
                 setCompleted(true)
+                setPoints([...points])
             }
-            setPoints([...points])
+            if (!validateIsOutScreen(nextPoint, null)) {
+                points.push(nextPoint)
+                if (isEqual(nextPoint, end)) {
+                    window.removeEventListener(windowKeyDownEvent, keydown)
+                    setCompleted(true)
+                }
+                setPoints([...points])
+            }
         }
     }
     function initObstacle() {
-        var obstacleItems = randomObstacles(obstacleLevel.superHard, windowWidth, windowHeight)
+        // const obstacleItems = randomObstacles(obstacleLevel.hard, windowWidth, windowHeight)
+        // console.log(obstacleItems)
+        const obstacleItems = amountPoints
         return obstacleItems
     }
     function initKeydownEvent() {
@@ -75,8 +89,8 @@ export default function Layout() {
     }
   
     function initAnimalRunning() {
-        const id = setInterval(processAnimalRunning, animalRunningTime.superHard)
-        setAnimalRunningId(id)
+        // const id = setInterval(processAnimalRunning, animalRunningTime.easy)
+        // setAnimalRunningId(id)
     }
     useEffect(() => {
         initKeydownEvent()
@@ -108,6 +122,8 @@ export default function Layout() {
             setCompleted(false)
             resetPoints()
             setReset(false)
+            const endPoint = createEndPoint()
+            setEndPoint(endPoint)
         }
     }, [isReset])
     

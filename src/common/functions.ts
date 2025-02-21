@@ -1,6 +1,7 @@
 import ObstacleInterface from "../interfaces/Obstacle.ts"
 import Point from "../interfaces/Point.ts"
-import { defaultLength, direction, endpointMarginRow, images, keydownEnum, obstacleLength, windowHeight, windowMinHeight, windowMinWidth, windowWidth } from "./constants.ts"
+import ResultValidate from "../interfaces/ResultValidate.ts";
+import { defaultLength, direction, endpointMarginRow, images, keydownEnum, obstableSetting, windowHeight, windowMinHeight, windowMinWidth, windowWidth } from "./constants.ts"
 import _ from 'lodash'
 function onSegment(p, q, r) 
 { 
@@ -61,50 +62,88 @@ function doIntersect(p1, q1, p2, q2)
     return false; // Doesn't fall in any of the above cases 
 } 
 
-function validateLine (start: Point, end: Point, obstacles: ObstacleInterface[]) {
+function validateLine (start: Point, end: Point, obstacles: ObstacleInterface[], directions: direction[]) : ResultValidate {
     const a = obstacles.find((item) => {
         const b = doIntersect(start, end, item, {
-            x: item.x + obstacleLength,
+            x: item.x + obstableSetting.width,
             y: item.y
         })
 
         const c = doIntersect(start, end,  {
-            x: item.x + obstacleLength,
+            x: item.x + obstableSetting.width,
             y: item.y
         }, {
-            x: item.x + obstacleLength,
-            y: item.y + obstacleLength
+            x: item.x + obstableSetting.width,
+            y: item.y + obstableSetting.height
         })
 
         const d = doIntersect(start, end, item, {
             x: item.x,
-            y: item.y + obstacleLength
+            y: item.y + obstableSetting.height
         })
 
         const e = doIntersect(start, end, {
             x: item.x,
-            y: item.y + obstacleLength
+            y: item.y + obstableSetting.height
         }, {
-            x: item.x + obstacleLength,
-            y: item.y + obstacleLength
+            x: item.x + obstableSetting.width,
+            y: item.y + obstableSetting.height
         })
 
         return b || c || d || e
     })
-    if (!!a) {
-        return false
+    return {
+        valid: !a,
+        nextPoint: end,
+        intersectPoint: a
     }
-    return true
 }
 
-function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles: ObstacleInterface[], directionSolution: direction[], ignorePoints: Point[] = []) {
+function validateLine1 (start: Point, end: Point, obstacles: ObstacleInterface[], directions: direction[]) : ResultValidate {
+    const a = obstacles.find((item) => {
+        const b = doIntersect(start, end, item, {
+            x: item.x + obstableSetting.width,
+            y: item.y
+        })
+
+        const c = doIntersect(start, end,  {
+            x: item.x + obstableSetting.width,
+            y: item.y
+        }, {
+            x: item.x + obstableSetting.width,
+            y: item.y + obstableSetting.height
+        })
+
+        const d = doIntersect(start, end, item, {
+            x: item.x,
+            y: item.y + obstableSetting.height
+        })
+
+        const e = doIntersect(start, end, {
+            x: item.x,
+            y: item.y + obstableSetting.height
+        }, {
+            x: item.x + obstableSetting.width,
+            y: item.y + obstableSetting.height
+        })
+
+        return b || c || d || e
+    })
+    return {
+        valid: !a,
+        nextPoint: end,
+        intersectPoint: a
+    }
+}
+
+function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles: ObstacleInterface[], directionSolutions: direction[], ignorePoints: Point[] = []) {
     let nextPoint:Point = {
         x: 0,
         y: 0
     }
     let result = false
-    for (let i = 0; i < directionSolution.length; i++) {
-        switch(directionSolution[i]) {
+    for (let i = 0; i < directionSolutions.length; i++) {
+        switch(directionSolutions[i]) {
             case direction.top: {
                 nextPoint = {
                     x: start.x,
@@ -137,7 +176,7 @@ function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles
         if (nextPoint.x === start.x && nextPoint.y === start.y) continue
         if (points.find((x) => nextPoint.x === x.x && nextPoint.y === x.y)) continue
         if (ignorePoints.find((x) => nextPoint.x === x.x && nextPoint.y === x.y)) continue
-        result = validateLine(start, nextPoint, obstacles)
+        result = validateLine(start, nextPoint, obstacles, directionSolutions)?.valid
         if (result) {
             break
         }
@@ -235,10 +274,12 @@ function createSystemLines(pointStart: Point, pointEnd : Point, diameter: number
     return lines
 }
 
-function validateIsOutScreen(point: Point, obstacleLength: number = 0) {
-    if (point?.x > windowWidth - obstacleLength * 1.5 ||
+function validateIsOutScreen(point: Point, padding) {
+    const width = padding?.width || 0
+    const height = padding?.height || 0
+    if (point?.x > windowWidth - width * 1.5 ||
         point?.x < windowMinWidth ||
-        point?.y > windowHeight - obstacleLength * 1.5 ||
+        point?.y > windowHeight - height * 1.5 ||
         point?.y < windowMinHeight) {
             return true
         }
@@ -297,7 +338,7 @@ function changePositionAnimals(obstacles: ObstacleInterface[]) {
         const indexRandom = randomNumber(0, keys.length - 1)
         if (keyDownValues[indexRandom]) {
             const nextPoint = createNextPoint(keyDownValues[indexRandom], obstacle,)
-            if (!!nextPoint && !validateIsOutScreen(nextPoint, obstacleLength)) {
+            if (!!nextPoint && !validateIsOutScreen(nextPoint, obstableSetting)) {
                 obstacle.x = nextPoint.x
                 obstacle.y = nextPoint.y
             }
@@ -310,13 +351,27 @@ function createEndPoint() : Point {
         halfHeight = windowHeight / 2,
         countRowWidth = Math.floor(halfWidth / defaultLength),
         countRowHeight = Math.floor(halfHeight / defaultLength),
-        randomWidth = randomNumber(0, countRowWidth - endpointMarginRow),
-        randomHeight = randomNumber(0, countRowHeight - endpointMarginRow)
+        randomWidth = randomNumber(endpointMarginRow, countRowWidth - endpointMarginRow),
+        randomHeight = randomNumber(endpointMarginRow, countRowHeight - endpointMarginRow)
 
     return {
         x: (countRowWidth + randomWidth) * defaultLength,
         y: (countRowHeight + randomHeight) * defaultLength
     }
+}
+
+function convertKeyDownToDirect(key: string) {
+    switch(key) {
+        case keydownEnum.arrowUp:
+            return direction.top
+        case keydownEnum.arrowRight:
+            return direction.right
+        case keydownEnum.arrowDown:
+            return direction.bottom
+        case keydownEnum.arrowLeft:
+            return direction.left
+    }
+    return direction.left
 }
 
 export {
@@ -327,5 +382,7 @@ export {
     createNextPointByKeydownEvent,
     validateIsOutScreen,
     changePositionAnimals,
-    createEndPoint
+    createEndPoint,
+    validateLine1,
+    convertKeyDownToDirect
 }
