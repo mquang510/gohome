@@ -1,7 +1,7 @@
 import React from "react"
 import Circle from './item/Circle.tsx'
 import Obstacle from './item/Obstacle.tsx'
-import { changePositionAnimals, createNextPointByKeydownEvent, randomObstacles, validateIsOutScreen } from '../common/functions.ts'
+import { changePositionAnimals, createEndPoint, createNextPointByKeydownEvent, randomObstacles, validateIsOutScreen } from '../common/functions.ts'
 import MainLine from "./line/mainLine.tsx"
 import SystemLine from "./line/systemLine.tsx"
 import { 
@@ -27,12 +27,10 @@ export default function Layout() {
         x: 50,
         y: 50
     }
-    let end: PointInterface = {
-        x: 800,
-        y: 500
-    }
+    // const end: PointInterface = createEndPoint()
     const localStorageIsFirstTime = localStorage.getItem(isFirstTimeKey)
     const isFirstTimeDefault = !!localStorageIsFirstTime ? JSON.parse(localStorageIsFirstTime) : true
+    const [end, setEndPoint] = useState(createEndPoint())
     const [points, setPoints] = useState([start])
     const [isFirstTime, setFirstTime] = useState(isFirstTimeDefault)
     const [isCompleted, setCompleted] = useState(false)

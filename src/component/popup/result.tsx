@@ -20,7 +20,7 @@ export default function ResultPopup({ isCompleted, onHide, total }) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={onHide}>
-            {resultText.startButton}
+            {resultText.buttons.start}
           </Button>
         </Modal.Footer>
       </Modal>

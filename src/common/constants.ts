@@ -7,6 +7,7 @@ export const windowHeight = window.innerHeight
 export const windowMinWidth = 0
 export const windowMinHeight = 0
 export const windowMargin = 2
+export const endpointMarginRow = 2
 export const windowKeyDownEvent = 'keydown'
 export const px = 'px'
 export const isFirstTimeKey = "isFirstTime"

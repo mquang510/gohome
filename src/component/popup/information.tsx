@@ -20,7 +20,7 @@ export default function InformationPopup({ isFirstTime, onHide }) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={onHide}>
-            {informationText.startButton}
+            {informationText.buttons.start}
           </Button>
         </Modal.Footer>
       </Modal>

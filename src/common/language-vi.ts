@@ -1,13 +1,17 @@
 export const informationText = {
-    header: "Chào!",
+    header: "Thông Báo",
     body: "Trò chơi tìm đường về nhà.",
     instruction: "Sử dụng phím lên, xuống, phải, trái để di chuyển.",
-    startButton: "Bắt đầu"
+    buttons: {
+        start: "Bắt đầu"
+    }
 }
 
 export const resultText = {
-    header: "Chào!",
+    header: "Thông Báo",
     body: "Chào mừng bạn về tới nhà, đi ngủ nào.",
     information: "Tổng số bước đã di chuyển: ",
-    startButton: "Chơi lại"
+    buttons: {
+        start:  "Chơi lại"
+    }
 }

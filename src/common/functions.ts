@@ -1,6 +1,6 @@
 import ObstacleInterface from "../interfaces/Obstacle.ts"
 import Point from "../interfaces/Point.ts"
-import { defaultLength, direction, images, keydownEnum, obstacleLength, windowHeight, windowMinHeight, windowMinWidth, windowWidth } from "./constants.ts"
+import { defaultLength, direction, endpointMarginRow, images, keydownEnum, obstacleLength, windowHeight, windowMinHeight, windowMinWidth, windowWidth } from "./constants.ts"
 import _ from 'lodash'
 function onSegment(p, q, r) 
 { 
@@ -61,7 +61,7 @@ function doIntersect(p1, q1, p2, q2)
     return false; // Doesn't fall in any of the above cases 
 } 
 
-function validateLine (start: Point, end: Point, obstacles: any) {
+function validateLine (start: Point, end: Point, obstacles: ObstacleInterface[]) {
     const a = obstacles.find((item) => {
         const b = doIntersect(start, end, item, {
             x: item.x + obstacleLength,
@@ -97,7 +97,7 @@ function validateLine (start: Point, end: Point, obstacles: any) {
     return true
 }
 
-function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles: any, directionSolution: direction[], ignorePoints: Point[] = []) {
+function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles: ObstacleInterface[], directionSolution: direction[], ignorePoints: Point[] = []) {
     let nextPoint:Point = {
         x: 0,
         y: 0
@@ -146,7 +146,7 @@ function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles
     return { nextPoint, result }
 }
 
-function addNextPoint (points:[Point], start: Point, end: Point, defaultLength: number, obstacles: any, directionSolution: direction[], ignorePoints: Point[] = []) {
+function addNextPoint (points:[Point], start: Point, end: Point, defaultLength: number, obstacles: ObstacleInterface[], directionSolution: direction[], ignorePoints: Point[] = []) {
     let result = getPointByDiretion(points, start, end, obstacles, directionSolution, ignorePoints)
     
     if (result.result) {
@@ -169,7 +169,7 @@ function addNextPoint (points:[Point], start: Point, end: Point, defaultLength: 
     return false
 }
 
-function findingRoutes(start: Point, end: Point, defaultLength: number, obstacles: any, directionSolution: any)  {
+function findingRoutes(start: Point, end: Point, defaultLength: number, obstacles: ObstacleInterface[], directionSolution: direction[])  {
     const positions:[Point] = [start]
     addNextPoint(positions, start, end, defaultLength, obstacles, directionSolution)
     return positions
@@ -235,7 +235,7 @@ function createSystemLines(pointStart: Point, pointEnd : Point, diameter: number
     return lines
 }
 
-function validateIsOutScreen(point: Point, obstacleLength = 0) {
+function validateIsOutScreen(point: Point, obstacleLength: number = 0) {
     if (point?.x > windowWidth - obstacleLength * 1.5 ||
         point?.x < windowMinWidth ||
         point?.y > windowHeight - obstacleLength * 1.5 ||
@@ -305,6 +305,20 @@ function changePositionAnimals(obstacles: ObstacleInterface[]) {
     })
 }
 
+function createEndPoint() : Point {
+    const halfWidth = windowWidth / 2,
+        halfHeight = windowHeight / 2,
+        countRowWidth = Math.floor(halfWidth / defaultLength),
+        countRowHeight = Math.floor(halfHeight / defaultLength),
+        randomWidth = randomNumber(0, countRowWidth - endpointMarginRow),
+        randomHeight = randomNumber(0, countRowHeight - endpointMarginRow)
+
+    return {
+        x: (countRowWidth + randomWidth) * defaultLength,
+        y: (countRowHeight + randomHeight) * defaultLength
+    }
+}
+
 export {
     randomObstacles,
     randomNumber,
@@ -312,5 +326,6 @@ export {
     createSystemLines,
     createNextPointByKeydownEvent,
     validateIsOutScreen,
-    changePositionAnimals
+    changePositionAnimals,
+    createEndPoint
 }
