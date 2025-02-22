@@ -1,26 +1,26 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { informationText } from '../../common/language-vi.ts'
+import { resultText } from '../../common/language-vi.ts'
 
-export default function InformationPopup({ isFirstTime, onHide }: any) {
+export default function ResultPopup({ isCompleted, onHide, total } : any) {
   return (
     <>
-      <Modal show={isFirstTime} centered={true}>
+      <Modal show={isCompleted} centered={true}>
         <Modal.Header>
-          <Modal.Title>{informationText.header}</Modal.Title>
+          <Modal.Title>{resultText.header}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className='mb-3'>
-            {informationText.body}
+            {resultText.body}
           </div>
           <div className='mb-3'>
-            {informationText.instruction}
+            {resultText.information} {total}
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={onHide}>
-            {informationText.buttons.start}
+            {resultText.buttons.start}
           </Button>
         </Modal.Footer>
       </Modal>

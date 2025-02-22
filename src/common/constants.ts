@@ -1,12 +1,14 @@
 
 export const defaultLength = 50
 export const obstacleLength = 40
-export const defaultDiameterStartPoint = 20
+export const diameterStartPoint = 20
+export const diameterEndPoint = 20
 export const windowWidth = window.innerWidth
 export const windowHeight = window.innerHeight
 export const windowMinWidth = 0
 export const windowMinHeight = 0
 export const windowMargin = 2
+export const endpointMarginRow = 2
 export const windowKeyDownEvent = 'keydown'
 export const px = 'px'
 export const isFirstTimeKey = "isFirstTime"
@@ -14,25 +16,53 @@ export enum obstacleLevel {
     easy = 20,
     normal = 50,
     hard = 100,
-    superHard = 200
+    superHard = 200,
+    extremely = 300
 }
 export enum animalRunningTime {
     easy = 5000,
     normal = 3000,
     hard = 2000,
-    superHard = 1000
+    superHard = 1000,
+    extremely = 500
 }
 export enum imageEnum {
-    dog = '/image/dog.png',
+    wolf = '/image/wolf.png',
     dinosaur = '/image/dinosaur.png',
     tiger = '/image/tiger.png',
     tyrannosaurus = '/image/tyrannosaurus.png',
 }
+export const obstacleObjects = [
+    {
+        index: 0,
+        width: 50,
+        height: 30,
+        image: imageEnum.wolf
+    },
+    {
+        index: 1,
+        width: 50,
+        height: 30,
+        image: imageEnum.dinosaur
+    },
+    {
+        index: 2,
+        width: 50,
+        height: 30,
+        image: imageEnum.tiger
+    },
+    {
+        index: 3,
+        width: 50,
+        height: 40,
+        image: imageEnum.tyrannosaurus
+    }
+]
 export enum direction {
-    top = 0,
-    right = 1,
-    bottom = 2,
-    left = 3
+    top = 1,
+    right = 2,
+    bottom = 3,
+    left = 4
 }
 export enum keydownEnum {
     arrowLeft = 'ArrowLeft',
@@ -41,406 +71,509 @@ export enum keydownEnum {
     arrowDown = 'ArrowDown'
 }
 
-export const images = [imageEnum.dinosaur, imageEnum.dog, imageEnum.tiger, imageEnum.tyrannosaurus]
 export const systemDirectRight = [direction.right, direction.bottom, direction.left]
 export const systemDirectBottom = [direction.bottom, direction.right]
 export const systemDirectTop = [direction.top, direction.right, direction.left]
 
 export const amountPoints = [
     {
-        "x": 710,
-        "y": 678
+        "x": 1180,
+        "y": 130,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 1202,
-        "y": 98
+        "x": 1361,
+        "y": 213,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 213,
-        "y": 359
+        "x": 184,
+        "y": 169,
+        "src": "/image/dog.png"
     },
     {
-        "x": 599,
-        "y": 659
-    },
-    {
-        "x": 422,
-        "y": 391
-    },
-    {
-        "x": 155,
-        "y": 575
-    },
-    {
-        "x": 270,
-        "y": 143
-    },
-    {
-        "x": 875,
-        "y": 266
-    },
-    {
-        "x": 1430,
-        "y": 320
-    },
-    {
-        "x": 310,
-        "y": 570
-    },
-    {
-        "x": 1263,
-        "y": 551
-    },
-    {
-        "x": 958,
-        "y": 208
-    },
-    {
-        "x": 1336,
-        "y": 66
-    },
-    {
-        "x": 859,
-        "y": 636
-    },
-    {
-        "x": 756,
-        "y": 261
-    },
-    {
-        "x": 1071,
-        "y": 643
-    },
-    {
-        "x": 942,
-        "y": 177
-    },
-    {
-        "x": 1130,
-        "y": 578
-    },
-    {
-        "x": 1023,
-        "y": 519
-    },
-    {
-        "x": 278,
-        "y": 577
-    },
-    {
-        "x": 53,
-        "y": 500
-    },
-    {
-        "x": 1459,
-        "y": 157
-    },
-    {
-        "x": 105,
-        "y": 240
-    },
-    {
-        "x": 1395,
-        "y": 336
-    },
-    {
-        "x": 1239,
-        "y": 374
-    },
-    {
-        "x": 391,
-        "y": 224
-    },
-    {
-        "x": 483,
-        "y": 608
-    },
-    {
-        "x": 669,
-        "y": 59
-    },
-    {
-        "x": 1291,
-        "y": 344
-    },
-    {
-        "x": 742,
-        "y": 145
-    },
-    {
-        "x": 355,
-        "y": 187
-    },
-    {
-        "x": 263,
-        "y": 375
-    },
-    {
-        "x": 612,
-        "y": 262
-    },
-    {
-        "x": 691,
-        "y": 488
-    },
-    {
-        "x": 909,
-        "y": 542
-    },
-    {
-        "x": 818,
-        "y": 156
+        "x": 6,
+        "y": 214,
+        "src": "/image/dog.png"
     },
     {
         "x": 241,
-        "y": 347
+        "y": 566,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 1380,
-        "y": 223
+        "x": 623,
+        "y": 84,
+        "src": "/image/dog.png"
     },
     {
-        "x": 749,
-        "y": 459
+        "x": 767,
+        "y": 270,
+        "src": "/image/dog.png"
     },
     {
-        "x": 684,
-        "y": 156
+        "x": 1460,
+        "y": 121,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 370,
-        "y": 490
+        "x": 1224,
+        "y": 95,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 228,
-        "y": 159
+        "x": 290,
+        "y": 575,
+        "src": "/image/dog.png"
     },
     {
-        "x": 1280,
-        "y": 185
+        "x": 766,
+        "y": 640,
+        "src": "/image/dog.png"
     },
     {
-        "x": 1107,
-        "y": 73
+        "x": 861,
+        "y": 466,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 1089,
-        "y": 426
+        "x": 1481,
+        "y": 151,
+        "src": "/image/dog.png"
     },
     {
-        "x": 753,
-        "y": 186
+        "x": 1069,
+        "y": 65,
+        "src": "/image/dog.png"
     },
     {
-        "x": 1456,
-        "y": 240
+        "x": 510,
+        "y": 308,
+        "src": "/image/dog.png"
     },
     {
-        "x": 63,
-        "y": 314
+        "x": 41,
+        "y": 599,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 1134,
-        "y": 215
+        "x": 1228,
+        "y": 138,
+        "src": "/image/dog.png"
     },
     {
-        "x": 465,
-        "y": 539
+        "x": 489,
+        "y": 389,
+        "src": "/image/dog.png"
     },
     {
-        "x": 410,
-        "y": 264
+        "x": 620,
+        "y": 343,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 840,
-        "y": 486
+        "x": 1183,
+        "y": 226,
+        "src": "/image/dog.png"
     },
     {
-        "x": 368,
-        "y": 499
+        "x": 128,
+        "y": 644,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 930,
-        "y": 610
+        "x": 1104,
+        "y": 683,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 550,
-        "y": 191
+        "x": 655,
+        "y": 603,
+        "src": "/image/dog.png"
     },
     {
-        "x": 1391,
-        "y": 679
+        "x": 1247,
+        "y": 482,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 552,
-        "y": 528
+        "x": 617,
+        "y": 11,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 959,
-        "y": 586
+        "x": 1161,
+        "y": 55,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 1331,
-        "y": 61
+        "x": 1267,
+        "y": 205,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 1485,
-        "y": 441
+        "x": 354,
+        "y": 431,
+        "src": "/image/dog.png"
     },
     {
-        "x": 910,
-        "y": 215
+        "x": 836,
+        "y": 157,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 787,
-        "y": 442
+        "x": 1072,
+        "y": 107,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 1035,
-        "y": 548
+        "x": 1025,
+        "y": 452,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 1075,
-        "y": 197
+        "x": 1452,
+        "y": 567,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 1248,
-        "y": 526
+        "x": 1080,
+        "y": 348,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 114,
-        "y": 379
+        "x": 846,
+        "y": 303,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 301,
-        "y": 273
+        "x": 545,
+        "y": 440,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 449,
-        "y": 333
+        "x": 1054,
+        "y": 604,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 852,
-        "y": 457
+        "x": 1168,
+        "y": 518,
+        "src": "/image/dog.png"
     },
     {
-        "x": 162,
-        "y": 455
+        "x": 212,
+        "y": 425,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 1375,
+        "y": 6,
+        "src": "/image/dinosaur.png"
+    },
+    {
+        "x": 55,
+        "y": 58,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 1117,
+        "y": 106,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 60,
+        "y": 687,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 9,
+        "y": 375,
+        "src": "/image/dog.png"
+    },
+    {
+        "x": 647,
+        "y": 114,
+        "src": "/image/dog.png"
+    },
+    {
+        "x": 91,
+        "y": 637,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 343,
+        "y": 233,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 154,
+        "y": 156,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 781,
+        "y": 54,
+        "src": "/image/dinosaur.png"
+    },
+    {
+        "x": 1193,
+        "y": 122,
+        "src": "/image/dinosaur.png"
     },
     {
         "x": 773,
-        "y": 74
+        "y": 427,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 700,
-        "y": 428
+        "x": 792,
+        "y": 190,
+        "src": "/image/dog.png"
     },
     {
-        "x": 841,
-        "y": 392
+        "x": 355,
+        "y": 492,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 1316,
-        "y": 123
-    },
-    {
-        "x": 169,
-        "y": 273
-    },
-    {
-        "x": 879,
-        "y": 253
-    },
-    {
-        "x": 1250,
-        "y": 548
-    },
-    {
-        "x": 274,
-        "y": 264
+        "x": 46,
+        "y": 512,
+        "src": "/image/tiger.png"
     },
     {
         "x": 1131,
-        "y": 126
+        "y": 277,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 676,
-        "y": 458
+        "x": 192,
+        "y": 316,
+        "src": "/image/dog.png"
     },
     {
-        "x": 630,
-        "y": 308
+        "x": 493,
+        "y": 457,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 989,
-        "y": 400
+        "x": 1203,
+        "y": 216,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 371,
-        "y": 224
+        "x": 850,
+        "y": 312,
+        "src": "/image/dog.png"
     },
     {
-        "x": 1374,
-        "y": 224
+        "x": 176,
+        "y": 483,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 1311,
-        "y": 281
+        "x": 1474,
+        "y": 101,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 1077,
-        "y": 133
+        "x": 1442,
+        "y": 236,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 536,
-        "y": 430
+        "x": 614,
+        "y": 670,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 587,
-        "y": 247
+        "x": 641,
+        "y": 659,
+        "src": "/image/dog.png"
     },
     {
-        "x": 681,
-        "y": 161
+        "x": 979,
+        "y": 327,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 789,
-        "y": 74
+        "x": 544,
+        "y": 416,
+        "src": "/image/dog.png"
     },
     {
-        "x": 503,
-        "y": 648
+        "x": 579,
+        "y": 225,
+        "src": "/image/dog.png"
     },
     {
-        "x": 906,
-        "y": 315
+        "x": 1140,
+        "y": 516,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 747,
-        "y": 644
+        "x": 499,
+        "y": 618,
+        "src": "/image/tyrannosaurus.png"
     },
     {
-        "x": 260,
-        "y": 96
+        "x": 1080,
+        "y": 209,
+        "src": "/image/dog.png"
     },
     {
-        "x": 1171,
-        "y": 373
+        "x": 125,
+        "y": 580,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 1076,
-        "y": 551
+        "x": 548,
+        "y": 517,
+        "src": "/image/tiger.png"
     },
     {
-        "x": 643,
-        "y": 339
+        "x": 253,
+        "y": 126,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 1023,
-        "y": 372
+        "x": 1010,
+        "y": 13,
+        "src": "/image/dinosaur.png"
     },
     {
-        "x": 428,
-        "y": 445
+        "x": 397,
+        "y": 319,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 422,
+        "y": 139,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 556,
+        "y": 310,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 970,
+        "y": 647,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 917,
+        "y": 236,
+        "src": "/image/dinosaur.png"
+    },
+    {
+        "x": 1300,
+        "y": 164,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 1089,
+        "y": 529,
+        "src": "/image/dog.png"
+    },
+    {
+        "x": 1476,
+        "y": 181,
+        "src": "/image/dinosaur.png"
+    },
+    {
+        "x": 1094,
+        "y": 551,
+        "src": "/image/dinosaur.png"
+    },
+    {
+        "x": 654,
+        "y": 467,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 377,
+        "y": 311,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 977,
+        "y": 299,
+        "src": "/image/dinosaur.png"
+    },
+    {
+        "x": 1034,
+        "y": 91,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 1451,
+        "y": 141,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 1385,
+        "y": 308,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 610,
+        "y": 52,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 1218,
+        "y": 419,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 331,
+        "y": 15,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 852,
+        "y": 9,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 1288,
+        "y": 662,
+        "src": "/image/tiger.png"
+    },
+    {
+        "x": 382,
+        "y": 6,
+        "src": "/image/dog.png"
+    },
+    {
+        "x": 1180,
+        "y": 645,
+        "src": "/image/dinosaur.png"
+    },
+    {
+        "x": 19,
+        "y": 131,
+        "src": "/image/dog.png"
+    },
+    {
+        "x": 811,
+        "y": 545,
+        "src": "/image/dog.png"
+    },
+    {
+        "x": 770,
+        "y": 93,
+        "src": "/image/tyrannosaurus.png"
+    },
+    {
+        "x": 353,
+        "y": 105,
+        "src": "/image/dog.png"
+    },
+    {
+        "x": 982,
+        "y": 270,
+        "src": "/image/dinosaur.png"
     }
 ]

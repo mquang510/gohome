@@ -1,17 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react"
 import Circle from './item/Circle.tsx'
 import Obstacle from './item/Obstacle.tsx'
-import { changePositionAnimals, createNextPointByKeydownEvent, randomObstacles, validateIsOutScreen } from '../common/functions.ts'
+import { changePositionAnimals, convertKeyDownToDirect, createEndPoint, createNextPointByKeydownEvent, getIntersectPoint, randomObstacles, validateIsOutScreen, validateLine1 } from '../common/functions.ts'
 import MainLine from "./line/mainLine.tsx"
 import SystemLine from "./line/systemLine.tsx"
 import { 
-    defaultDiameterStartPoint,
     windowWidth,
     windowHeight,
     windowKeyDownEvent,
     isFirstTimeKey,
     obstacleLevel,
-    animalRunningTime
+    animalRunningTime,
+    diameterEndPoint,
+    diameterStartPoint
 } from "../common/constants.ts"
 import { useState, useEffect } from 'react'
 import Image from './item/Image.tsx'
@@ -27,65 +29,67 @@ export default function Layout() {
         x: 50,
         y: 50
     }
-    let end: PointInterface = {
-        x: 800,
-        y: 500
+    const initObstacle = () => {
+        const obstacleItems = randomObstacles(obstacleLevel.hard, windowWidth, windowHeight)
+        return obstacleItems
     }
-    const localStorageIsFirstTime = localStorage.getItem(isFirstTimeKey)
-    const isFirstTimeDefault = !!localStorageIsFirstTime ? JSON.parse(localStorageIsFirstTime) : true
-    const [points, setPoints] = useState([start])
-    const [isFirstTime, setFirstTime] = useState(isFirstTimeDefault)
-    const [isCompleted, setCompleted] = useState(false)
-    const [isReset, setReset] = useState(false)
-    const [obstacles, setObstacles] = useState<ObstacleInterface[]>(initObstacle())
-    const [isAnimalRunning, setAnimalRunning] = useState(true)
-    const [animalRunningId, setAnimalRunningId] = useState<NodeJS.Timeout>()
-    function keydown(event: KeyboardEvent) {
+    const keydown = (event: KeyboardEvent) => {
+        if (isCompleted) return
         if (points.length === 0) {
             points.push(start)
         }
-        
         const lastPoint = points[points.length - 1]
         const nextPoint = createNextPointByKeydownEvent(event, lastPoint)
-        if (!!nextPoint && !validateIsOutScreen(nextPoint)) {
-            points.push(nextPoint)
-            if (isEqual(nextPoint, end)) {
-                window.removeEventListener(windowKeyDownEvent, keydown);
+        if (!!nextPoint) {
+            const result = validateLine1(lastPoint, nextPoint, obstacles, [convertKeyDownToDirect(event.key)])
+            if (!result.valid) {
+                if (!!result.obstaclePoint) {
+                    const intersectPoint = getIntersectPoint(lastPoint, result.obstaclePoint)
+                    if (!!intersectPoint) points.push(intersectPoint)
+                }
                 setCompleted(true)
+                setPoints([...points])
+                return
             }
-            setPoints([...points])
+            if (!validateIsOutScreen(nextPoint, 0)) {
+                points.push(nextPoint)
+                if (isEqual(nextPoint, end)) {
+                    setCompleted(true)
+                }
+                setPoints([...points])
+            }
         }
     }
-    function initObstacle() {
-        var obstacleItems = randomObstacles(obstacleLevel.superHard, windowWidth, windowHeight)
-        return obstacleItems
-    }
-    function initKeydownEvent() {
-        window.addEventListener(windowKeyDownEvent, keydown)
-    }
-    function resetPoints() {
+    const resetPoints = () => {
         points.length = 0
         points.push(start)
         setPoints([...points])
     }
-    function resetPopupHide() {
+    const resetPopupHide = () => {
         setReset(true)
     }
-    function processAnimalRunning() {
+    const processAnimalRunning = () => {
         changePositionAnimals(obstacles)
         setObstacles([...obstacles])
     }
-  
-    function initAnimalRunning() {
-        const id = setInterval(processAnimalRunning, animalRunningTime.superHard)
+    const initAnimalRunning = () => {
+        const id = setInterval(processAnimalRunning, animalRunningTime.normal)
         setAnimalRunningId(id)
     }
+    // const end: PointInterface = createEndPoint()
+    const localStorageIsFirstTime = localStorage.getItem(isFirstTimeKey)
+    const isFirstTimeDefault = !!localStorageIsFirstTime ? JSON.parse(localStorageIsFirstTime) : true
+    let [end, setEndPoint] = useState(createEndPoint())
+    const [points, setPoints] = useState([start])
+    const [isFirstTime, setFirstTime] = useState(isFirstTimeDefault)
+    const [isCompleted, setCompleted] = useState(false)
+    const [isReset, setReset] = useState(false)
+    let [obstacles, setObstacles] = useState<ObstacleInterface[]>(initObstacle())
+    const [isAnimalRunning, setAnimalRunning] = useState(true)
+    const [animalRunningId, setAnimalRunningId] = useState<NodeJS.Timeout>()
+    
     useEffect(() => {
-        initKeydownEvent()
-    }, [])
-
-    useEffect(() => {
-        localStorage.setItem(isFirstTimeKey, JSON.stringify(isFirstTime));
+        localStorage.setItem(isFirstTimeKey, JSON.stringify(isFirstTime))
     }, [isFirstTime])
 
     useEffect(() => {
@@ -100,18 +104,26 @@ export default function Layout() {
             clearInterval(animalRunningId)
             setAnimalRunningId(undefined)
         }
-    }, [isAnimalRunning])
+    }, [animalRunningId, isAnimalRunning])
 
     useEffect(() => {
+        window.addEventListener(windowKeyDownEvent, keydown)
         if (isReset) {
             const obstacleItems = initObstacle()
             setObstacles(obstacleItems)
-            initKeydownEvent()
             setCompleted(false)
             resetPoints()
             setReset(false)
+            const endPoint = createEndPoint()
+            setEndPoint({
+                x: endPoint.x,
+                y: endPoint.y
+            })
         }
-    }, [isReset])
+        return () => {
+            window.removeEventListener(windowKeyDownEvent, keydown)
+        }
+    }, [isReset, keydown, resetPoints])
     
     function renderAmount (a: any) {
         return <Obstacle obstacle={a} />
@@ -124,7 +136,7 @@ export default function Layout() {
     const lastestPoint = points[points.length - 1]
     return (
         <div className="layout">
-            <Circle position={end} diameter={20}/>
+            <Circle position={end} />
             <div className="obstacle-swapper">
                 {amounts}
             </div>
@@ -134,7 +146,7 @@ export default function Layout() {
                 position={lastestPoint}
                 src={"/image/people.png"}
                 />
-            {!isEqual(start, lastestPoint) ? <Point position={start} diameter={defaultDiameterStartPoint}/> : '' }
+            {!isEqual(start, lastestPoint) ? <Point position={start} diameter={diameterStartPoint}/> : '' }
             <InformationPopup isFirstTime={isFirstTime} onHide={() => setFirstTime(false)} />
             <ResultPopup 
                 isCompleted={isCompleted} 
