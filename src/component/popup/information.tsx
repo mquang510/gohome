@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { informationText } from '../../common/language-vi.ts'
 
-export default function InformationPopup({ isFirstTime, onHide }) {
+export default function InformationPopup({ isFirstTime, onHide }: any) {
   return (
     <>
       <Modal show={isFirstTime} centered={true}>

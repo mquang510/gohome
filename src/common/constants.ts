@@ -1,7 +1,8 @@
 
 export const defaultLength = 50
-// export const obstacleLength = 40
-export const defaultDiameterStartPoint = 20
+export const obstacleLength = 40
+export const diameterStartPoint = 20
+export const diameterEndPoint = 20
 export const windowWidth = window.innerWidth
 export const windowHeight = window.innerHeight
 export const windowMinWidth = 0
@@ -11,10 +12,6 @@ export const endpointMarginRow = 2
 export const windowKeyDownEvent = 'keydown'
 export const px = 'px'
 export const isFirstTimeKey = "isFirstTime"
-export const obstableSetting = {
-    width: 40,
-    height: 30
-}
 export enum obstacleLevel {
     easy = 20,
     normal = 50,
@@ -30,16 +27,42 @@ export enum animalRunningTime {
     extremely = 500
 }
 export enum imageEnum {
-    dog = '/image/dog.png',
+    wolf = '/image/wolf.png',
     dinosaur = '/image/dinosaur.png',
     tiger = '/image/tiger.png',
     tyrannosaurus = '/image/tyrannosaurus.png',
 }
+export const obstacleObjects = [
+    {
+        index: 0,
+        width: 50,
+        height: 30,
+        image: imageEnum.wolf
+    },
+    {
+        index: 1,
+        width: 50,
+        height: 30,
+        image: imageEnum.dinosaur
+    },
+    {
+        index: 2,
+        width: 50,
+        height: 30,
+        image: imageEnum.tiger
+    },
+    {
+        index: 3,
+        width: 50,
+        height: 40,
+        image: imageEnum.tyrannosaurus
+    }
+]
 export enum direction {
-    top = 0,
-    right = 1,
-    bottom = 2,
-    left = 3
+    top = 1,
+    right = 2,
+    bottom = 3,
+    left = 4
 }
 export enum keydownEnum {
     arrowLeft = 'ArrowLeft',
@@ -48,7 +71,6 @@ export enum keydownEnum {
     arrowDown = 'ArrowDown'
 }
 
-export const images = [imageEnum.dinosaur, imageEnum.dog, imageEnum.tiger, imageEnum.tyrannosaurus]
 export const systemDirectRight = [direction.right, direction.bottom, direction.left]
 export const systemDirectBottom = [direction.bottom, direction.right]
 export const systemDirectTop = [direction.top, direction.right, direction.left]

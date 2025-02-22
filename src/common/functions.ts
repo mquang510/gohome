@@ -1,10 +1,9 @@
 import ObstacleInterface from "../interfaces/Obstacle.ts"
 import Point from "../interfaces/Point.ts"
 import ResultValidate from "../interfaces/ResultValidate.ts";
-import { defaultLength, direction, endpointMarginRow, images, keydownEnum, obstableSetting, windowHeight, windowMinHeight, windowMinWidth, windowWidth } from "./constants.ts"
+import { defaultLength, direction, endpointMarginRow, keydownEnum, obstacleLength, obstacleObjects, windowHeight, windowMinHeight, windowMinWidth, windowWidth } from "./constants.ts"
 import _ from 'lodash'
-function onSegment(p, q, r) 
-{ 
+const onSegment = (p: any, q: any, r: any) => { 
     if (q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) && 
         q.y <= Math.max(p.y, r.y) && q.y >= Math.min(p.y, r.y)) 
     return true; 
@@ -17,8 +16,7 @@ function onSegment(p, q, r)
 // 0 --> p, q and r are collinear 
 // 1 --> Clockwise 
 // 2 --> Counterclockwise 
-function orientation(p, q, r) 
-{ 
+const orientation = (p: any, q: any, r: any) => { 
   
     // See https://www.geeksforgeeks.org/orientation-3-ordered-points/ 
     // for details of below formula. 
@@ -32,8 +30,7 @@ function orientation(p, q, r)
   
 // The main function that returns true if line segment 'p1q1' 
 // and 'p2q2' intersect. 
-function doIntersect(p1, q1, p2, q2) 
-{ 
+const doIntersect = (p1: any, q1: any, p2: any, q2: any) => { 
   
     // Find the four orientations needed for general and 
     // special cases 
@@ -62,32 +59,32 @@ function doIntersect(p1, q1, p2, q2)
     return false; // Doesn't fall in any of the above cases 
 } 
 
-function validateLine (start: Point, end: Point, obstacles: ObstacleInterface[], directions: direction[]) : ResultValidate {
+const validateLine = (start: Point, end: Point, obstacles: ObstacleInterface[], directions: direction[]) : ResultValidate => {
     const a = obstacles.find((item) => {
         const b = doIntersect(start, end, item, {
-            x: item.x + obstableSetting.width,
+            x: item.x + item.width,
             y: item.y
         })
 
         const c = doIntersect(start, end,  {
-            x: item.x + obstableSetting.width,
+            x: item.x + item.width,
             y: item.y
         }, {
-            x: item.x + obstableSetting.width,
-            y: item.y + obstableSetting.height
+            x: item.x + item.width,
+            y: item.y + item.height
         })
 
         const d = doIntersect(start, end, item, {
             x: item.x,
-            y: item.y + obstableSetting.height
+            y: item.y + item.height
         })
 
         const e = doIntersect(start, end, {
             x: item.x,
-            y: item.y + obstableSetting.height
+            y: item.y + item.height
         }, {
-            x: item.x + obstableSetting.width,
-            y: item.y + obstableSetting.height
+            x: item.x + item.width,
+            y: item.y + item.height
         })
 
         return b || c || d || e
@@ -95,48 +92,81 @@ function validateLine (start: Point, end: Point, obstacles: ObstacleInterface[],
     return {
         valid: !a,
         nextPoint: end,
-        intersectPoint: a
+        obstaclePoint: a
     }
 }
 
-function validateLine1 (start: Point, end: Point, obstacles: ObstacleInterface[], directions: direction[]) : ResultValidate {
+const validateLine1 = (start: Point, end: Point, obstacles: ObstacleInterface[], directions: direction[]) : ResultValidate => {
     const a = obstacles.find((item) => {
-        const b = doIntersect(start, end, item, {
-            x: item.x + obstableSetting.width,
+        const isIntersectTop = doIntersect(start, end, item, {
+            x: item.x + item.width,
             y: item.y
         })
 
-        const c = doIntersect(start, end,  {
-            x: item.x + obstableSetting.width,
+        const isIntersectRight = doIntersect(start, end,  {
+            x: item.x + item.width,
             y: item.y
         }, {
-            x: item.x + obstableSetting.width,
-            y: item.y + obstableSetting.height
+            x: item.x + item.width,
+            y: item.y + item.height
         })
 
-        const d = doIntersect(start, end, item, {
+        const isIntersectLeft = doIntersect(start, end, item, {
             x: item.x,
-            y: item.y + obstableSetting.height
+            y: item.y + item.height
         })
 
-        const e = doIntersect(start, end, {
+        const isIntersectBottom = doIntersect(start, end, {
             x: item.x,
-            y: item.y + obstableSetting.height
+            y: item.y + item.height
         }, {
-            x: item.x + obstableSetting.width,
-            y: item.y + obstableSetting.height
+            x: item.x + item.width,
+            y: item.y + item.height
         })
+        const isValid = isIntersectTop || isIntersectRight || isIntersectLeft || isIntersectBottom
+        if (isValid) {
+            item.direction = isIntersectTop ? direction.top :
+            isIntersectRight ? direction.top :
+            isIntersectLeft ? direction.left : direction.bottom
+        }
 
-        return b || c || d || e
+        return isValid
     })
     return {
         valid: !a,
         nextPoint: end,
-        intersectPoint: a
+        obstaclePoint: a
     }
 }
 
-function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles: ObstacleInterface[], directionSolutions: direction[], ignorePoints: Point[] = []) {
+const getIntersectPoint = (point: Point, obstacle: ObstacleInterface) => {
+    if (!point || !obstacle?.direction) return
+    switch (obstacle.direction)
+    {
+        case direction.top:
+            return {
+                x: point.x,
+                y: obstacle.y
+            }
+        case direction.right:
+            return {
+                x: obstacle.x + obstacle.width,
+                y: point.y
+            }
+        case direction.left:
+            return {
+                x: obstacle.x,
+                y: point.y
+            }
+        case direction.bottom:
+            return {
+                x: point.x,
+                y: obstacle.y + obstacle.height
+            }
+    }
+}
+
+const getPointByDiretion = (points:[Point], start: Point, end: Point, obstacles: ObstacleInterface[], directionSolutions: direction[], ignorePoints: Point[] = []) => {
     let nextPoint:Point = {
         x: 0,
         y: 0
@@ -174,7 +204,9 @@ function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles
             }
         }
         if (nextPoint.x === start.x && nextPoint.y === start.y) continue
+        // eslint-disable-next-line no-loop-func
         if (points.find((x) => nextPoint.x === x.x && nextPoint.y === x.y)) continue
+        // eslint-disable-next-line no-loop-func
         if (ignorePoints.find((x) => nextPoint.x === x.x && nextPoint.y === x.y)) continue
         result = validateLine(start, nextPoint, obstacles, directionSolutions)?.valid
         if (result) {
@@ -185,7 +217,7 @@ function getPointByDiretion (points:[Point], start: Point, end: Point, obstacles
     return { nextPoint, result }
 }
 
-function addNextPoint (points:[Point], start: Point, end: Point, defaultLength: number, obstacles: ObstacleInterface[], directionSolution: direction[], ignorePoints: Point[] = []) {
+const addNextPoint = (points:[Point], start: Point, end: Point, defaultLength: number, obstacles: ObstacleInterface[], directionSolution: direction[], ignorePoints: Point[] = []) : boolean => {
     let result = getPointByDiretion(points, start, end, obstacles, directionSolution, ignorePoints)
     
     if (result.result) {
@@ -208,28 +240,31 @@ function addNextPoint (points:[Point], start: Point, end: Point, defaultLength: 
     return false
 }
 
-function findingRoutes(start: Point, end: Point, defaultLength: number, obstacles: ObstacleInterface[], directionSolution: direction[])  {
+const findingRoutes = (start: Point, end: Point, defaultLength: number, obstacles: ObstacleInterface[], directionSolution: direction[]) => {
     const positions:[Point] = [start]
     addNextPoint(positions, start, end, defaultLength, obstacles, directionSolution)
     return positions
 }
 
-function randomNumber(min: number, max: number) {
+const randomNumber= (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function createObstacle (maxX: number, maxY: number):ObstacleInterface {
+const createObstacle = (maxX: number, maxY: number):ObstacleInterface => {
     const x = randomNumber(0, maxX - 50)
     const y = randomNumber(0, maxY - 50)
-    const imageIndex = randomNumber(0, images.length - 1)
+    const obstacleIndex = randomNumber(0, obstacleObjects.length - 1)
+    const obstacle = obstacleObjects[obstacleIndex]
     return {
         x: x,
         y: y,
-        src: images[imageIndex]
+        src: obstacle?.image,
+        height: obstacle?.height,
+        width: obstacle?.width
     }
 }
 
-function randomObstacles(total = 0, x = 0, y = 0) {
+const randomObstacles = (total:number = 0, x:number = 0, y:number = 0) => {
     const obstacles: ObstacleInterface[] = []
     for (let i = 0; i < total; i++) {
         obstacles.push(createObstacle(x, y))
@@ -238,7 +273,7 @@ function randomObstacles(total = 0, x = 0, y = 0) {
     return obstacles
 }
 
-function createSystemLines(pointStart: Point, pointEnd : Point, diameter: number = defaultLength) {
+const createSystemLines = (pointStart: Point, pointEnd : Point, diameter: number = defaultLength) => {
     const lines: Point[][] = []
     const x = pointEnd.x - pointStart.x
     const y = pointEnd.y - pointStart.y
@@ -274,19 +309,17 @@ function createSystemLines(pointStart: Point, pointEnd : Point, diameter: number
     return lines
 }
 
-function validateIsOutScreen(point: Point, padding) {
-    const width = padding?.width || 0
-    const height = padding?.height || 0
-    if (point?.x > windowWidth - width * 1.5 ||
+const validateIsOutScreen = (point: Point, padding: number) => {
+    if (point?.x > windowWidth - padding * 1.5 ||
         point?.x < windowMinWidth ||
-        point?.y > windowHeight - height * 1.5 ||
+        point?.y > windowHeight - padding * 1.5 ||
         point?.y < windowMinHeight) {
             return true
         }
     return false
 }
 
-function createNextPointByKeydownEvent(event: KeyboardEvent, lastPoint: Point) {
+const createNextPointByKeydownEvent = (event: KeyboardEvent, lastPoint: Point) => {
     if (event.key !== keydownEnum.arrowUp &&
         event.key !== keydownEnum.arrowDown &&
         event.key !== keydownEnum.arrowLeft &&
@@ -298,7 +331,7 @@ function createNextPointByKeydownEvent(event: KeyboardEvent, lastPoint: Point) {
     return  createNextPoint(event.key, lastPoint)
 }
 
-function createNextPoint(key: string, lastPoint: Point) {
+const createNextPoint = (key: string, lastPoint: Point) => {
     let nextPoint
     switch(key) {
         case keydownEnum.arrowUp:
@@ -329,16 +362,16 @@ function createNextPoint(key: string, lastPoint: Point) {
     return nextPoint
 }
 
-function changePositionAnimals(obstacles: ObstacleInterface[]) {
+const changePositionAnimals = (obstacles: ObstacleInterface[]) => {
     if (!obstacles?.length) return
 
     const keys = _.keys(keydownEnum)
-    const keyDownValues = _.map(keys, (key) => keydownEnum[key])
+    const keyDownValues: string[] = _.map(keys, (key) => keydownEnum[key as keyof typeof keydownEnum])
     _.each(obstacles, (obstacle) => {
         const indexRandom = randomNumber(0, keys.length - 1)
         if (keyDownValues[indexRandom]) {
             const nextPoint = createNextPoint(keyDownValues[indexRandom], obstacle,)
-            if (!!nextPoint && !validateIsOutScreen(nextPoint, obstableSetting)) {
+            if (!!nextPoint && !validateIsOutScreen(nextPoint, obstacleLength)) {
                 obstacle.x = nextPoint.x
                 obstacle.y = nextPoint.y
             }
@@ -346,7 +379,7 @@ function changePositionAnimals(obstacles: ObstacleInterface[]) {
     })
 }
 
-function createEndPoint() : Point {
+const createEndPoint = () : Point => {
     const halfWidth = windowWidth / 2,
         halfHeight = windowHeight / 2,
         countRowWidth = Math.floor(halfWidth / defaultLength),
@@ -360,7 +393,7 @@ function createEndPoint() : Point {
     }
 }
 
-function convertKeyDownToDirect(key: string) {
+const convertKeyDownToDirect = (key: string) => {
     switch(key) {
         case keydownEnum.arrowUp:
             return direction.top
@@ -384,5 +417,6 @@ export {
     changePositionAnimals,
     createEndPoint,
     validateLine1,
-    convertKeyDownToDirect
+    convertKeyDownToDirect,
+    getIntersectPoint
 }

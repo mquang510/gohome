@@ -2,19 +2,7 @@ import React from "react"
 import Line from '../item/Line.tsx'
 import PointInterface from "../../interfaces/Point.ts"
 
-export default function MainLine({ points }) {
-    // const start = {
-    //     x: 50,
-    //     y: 50
-    //   }
-    //   const end = {
-    //     x: 800,
-    //     y: 500
-    //   }
-    // const positions = findingRoutes(start, end, defaultLength, obstacles, systemDirectRight)
-    // // console.log(positions)
-    // // const positionBottoms = findingRoutes(start, end, defaultLength, obstacles, systemDirectBottom)
-    // // const positions = positionRights.length < positionBottoms.length ? positionRights : positionBottoms
+export default function MainLine({ points }: any) {
     function renderLine (a: PointInterface, b: PointInterface) {
       return <Line start={a} end={b} attr={points.length - 1} />
     }

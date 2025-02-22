@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react"
-import { obstableSetting, px } from "../../common/constants.ts"
+import { px } from "../../common/constants.ts"
 
-export default function Obstacle({ obstacle }) {
+export default function Obstacle({ obstacle } : any) {
     const ref = useRef<HTMLImageElement>(null)
     const style = {
         top: obstacle.y,
         left: obstacle.x,
-        width: obstableSetting.width,
-        height: obstableSetting.height
+        width: obstacle.width,
+        height: obstacle.height
     }
 
     useEffect(() => {

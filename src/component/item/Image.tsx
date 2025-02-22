@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react"
-import { defaultDiameterStartPoint, px } from "../../common/constants.ts"
+import { diameterStartPoint, px } from "../../common/constants.ts"
 
-export default function Image({ position, src }) {
+export default function Image({ position, src }: any) {
     const ref = useRef<HTMLImageElement>(null)
     function getValue (a:number) {
-        return a - defaultDiameterStartPoint/2 + 1
+        return a - diameterStartPoint/2 + 1
     }
     const style = { 
         top: getValue(position.y),

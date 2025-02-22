@@ -1,11 +1,12 @@
 import React from "react"
+import { diameterEndPoint } from "../../common/constants"
 
-export default function Circle({ position, diameter }) {
+export default function Circle({ position }: any) {
     const style = {
-        width: diameter,
-        height: diameter,
-        top: position.y - diameter/2 + 1,
-        left: position.x - diameter/2 + 1
+        width: diameterEndPoint,
+        height: diameterEndPoint,
+        top: position.y - diameterEndPoint/2 + 1,
+        left: position.x - diameterEndPoint/2 + 1
     }
 
     return <div className="circle" style={style}></div>

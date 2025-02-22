@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { resultText } from '../../common/language-vi.ts'
 
-export default function ResultPopup({ isCompleted, onHide, total }) {
+export default function ResultPopup({ isCompleted, onHide, total } : any) {
   return (
     <>
       <Modal show={isCompleted} centered={true}>
