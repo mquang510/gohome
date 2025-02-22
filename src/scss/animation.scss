@@ -1,0 +1,77 @@
+@keyframes fadeinLineLeft {
+    0% {
+        opacity: 0;
+        width: 0;
+    }
+    100% {
+        opacity: 1;
+        width: 50px;
+    }
+}
+
+@keyframes fadeinLineRight {
+    0% {
+        opacity: 0;
+        width: 50px;
+    }
+    100% {
+        opacity: 1;
+        width: 0;
+    }
+}
+
+@keyframes fadeinLineTop {
+    0% {
+        opacity: 0;
+        height: 0;
+    }
+    100% {
+        opacity: 1;
+        height: 50px;
+    }
+}
+
+@keyframes fadeinLineBottom {
+    0% {
+        opacity: 0;
+        height: 50px;
+    }
+    100% {
+        opacity: 1;
+        height: 0px;
+    }
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+        width: 0;
+    }
+    100% {
+        opacity: 1;
+        width: 20px;
+    }
+}
+
+.image {
+    animation: fadein 500ms linear;
+}
+  
+.main-line .line.left {
+    animation: fadeinLineLeft 100ms ease;
+}
+
+.main-line .line.right {
+    animation: fadeinLineRight 110ms ease reverse;
+}
+
+.main-line .line.top {
+    animation: fadeinLineTop 110ms ease;
+}
+
+.main-line .line.bottom {
+    animation: fadeinLineBottom 100ms ease reverse;
+}
+
+
+  

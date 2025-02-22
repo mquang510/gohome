@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function Point({ position, diameter }) {
+export default function Point({ position, diameter }: any) {
     const style = {
         top: position.y,
         left: position.x - diameter/2

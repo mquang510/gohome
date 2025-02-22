@@ -9,23 +9,35 @@
         }
         .main-line {
             .line {
-                border: 1px solid black;
+                border: 1px solid limegreen;
                 position: absolute;
                 z-index: 2;
+                -webkit-transition: top 1s linear;
+                transition: top 1s ease-out;
             }
+        }
+
+        .image {
+            position: absolute;
+            z-index: 4;
+            width: 20px;
+            height: 20px;
+            transition-duration: 100ms;
+            transition-timing-function: linear;
         }
         
         .circle {
             position: absolute;
             border-radius: 10px;
-            background-color: black;
+            background-color: red;
             z-index: 3;
         }
         
         .obstacle {
             position: absolute;
-            background-color: blue;
             z-index: 2;
+            transition-duration: 100ms;
+            transition-timing-function: linear;
         }
         
         .point {

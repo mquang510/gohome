@@ -1,4 +1,6 @@
 import './scss/app.scss';
+import './scss/animation.scss';
+import 'bootstrap/dist/css/bootstrap.css';
 import Layout from './component/Layout.tsx';
 function App() {
   
