@@ -11,20 +11,26 @@ export const windowMargin = 2
 export const endpointMarginRow = 2
 export const windowKeyDownEvent = 'keydown'
 export const px = 'px'
-export const isFirstTimeKey = "isFirstTime"
-export enum obstacleLevel {
-    easy = 20,
-    normal = 50,
-    hard = 100,
-    superHard = 200,
-    extremely = 300
+export const firstTimeKey = "isFirstTime"
+export const settingsKey = "settings"
+export const f1 = "F1"
+export const startPoint = {
+    x: 50,
+    y: 50
 }
-export enum animalRunningTime {
-    easy = 5000,
-    normal = 3000,
-    hard = 2000,
-    superHard = 1000,
-    extremely = 500
+export const obstacleLevel = {
+    easy: 20,
+    normal: 50,
+    hard: 100,
+    superHard: 200,
+    extremely: 300
+}
+export const animalRunningTime = {
+    easy: 5000,
+    normal: 3000,
+    hard: 2000,
+    superHard: 1000,
+    extremely: 500
 }
 export enum imageEnum {
     wolf = '/image/wolf.png',

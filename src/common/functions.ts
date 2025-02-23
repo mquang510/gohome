@@ -126,7 +126,7 @@ const validateLine1 = (start: Point, end: Point, obstacles: ObstacleInterface[],
         const isValid = isIntersectTop || isIntersectRight || isIntersectLeft || isIntersectBottom
         if (isValid) {
             item.direction = isIntersectTop ? direction.top :
-            isIntersectRight ? direction.top :
+            isIntersectRight ? direction.right :
             isIntersectLeft ? direction.left : direction.bottom
         }
 

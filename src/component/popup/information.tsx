@@ -6,7 +6,7 @@ import { informationText } from '../../common/language-vi.ts'
 export default function InformationPopup({ isFirstTime, onHide }: any) {
   return (
     <>
-      <Modal show={isFirstTime} centered={true}>
+      <Modal className='modal-information' show={isFirstTime} centered={true}>
         <Modal.Header>
           <Modal.Title>{informationText.header}</Modal.Title>
         </Modal.Header>
@@ -15,7 +15,11 @@ export default function InformationPopup({ isFirstTime, onHide }: any) {
             {informationText.body}
           </div>
           <div className='mb-3'>
-            {informationText.instruction}
+            {informationText.instruction} 
+            <img src={"image/keys.png"} className="image-keys" alt=''></img>
+          </div>
+          <div className='mb-3'>
+            {informationText.setting}
           </div>
         </Modal.Body>
         <Modal.Footer>
