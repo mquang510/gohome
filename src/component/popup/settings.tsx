@@ -8,14 +8,20 @@ import _ from 'lodash'
 
 export default function SettingPopup({ isOpenSetting, onUpdate, onHide, settings } : any) {
     const levelKeys = _.keys(obstacleLevel)
+    const levelValues: number[] = _.map(levelKeys, (key) => obstacleLevel[key as keyof typeof obstacleLevel])
+    const levelTextKeys = _.keys(settingText.level)
+    const levelTextValues: string[] = _.map(levelTextKeys, (key) => settingText.level[key as keyof typeof settingText.level])
     const timeKeys = _.keys(animalRunningTime)
+    const timeValues: number[] = _.map(timeKeys, (key) => animalRunningTime[key as keyof typeof animalRunningTime])
+    const timeTextKeys = _.keys(settingText.time)
+    const timeTextValues: string[] = _.map(timeTextKeys, (key) => settingText.time[key as keyof typeof settingText.time])
     const [level, setLevel] = useState(settings.level)
     const [time, setTime] = useState(settings.time)
-    const onChangeLevel = (e: any, key: any) => {
-        setLevel(obstacleLevel[key])
+    const onChangeLevel = (index: number) => {
+        setLevel(levelValues[index])
     }
-    const onChangeTime = (e: any, key: any) => {
-        setTime(animalRunningTime[key])
+    const onChangeTime = (index: number) => {
+        setTime(timeValues[index])
     }
     const onUpdating = (e: any) => {
         onUpdate({
@@ -35,32 +41,32 @@ export default function SettingPopup({ isOpenSetting, onUpdate, onHide, settings
                     {settingText.animal.number}
                 </div>
                 <div>
-                    {levelKeys.map((key) => (
+                    {levelKeys.map((key, index) => (
                         <Form.Check
                             inline
-                            defaultChecked={level === obstacleLevel[key]}
-                            label={settingText.level[key]}
+                            defaultChecked={level === levelValues[index]}
+                            label={levelTextValues[index]}
                             name="group1"
                             type={'radio'}
-                            onChange={(e) => { onChangeLevel(e, key) }}
+                            onChange={(e) => { onChangeLevel(index) }}
                             id={`inline-${key}-1`}
                         />
                     ))}
                 </div>
             </div>
-            <div className='mb-3'>
+            <div className='mb-3 border-top'>
                 <div>
                     {settingText.animal.speed}
                 </div>
                 <div>
-                    {timeKeys.map((key) => (
+                    {timeKeys.map((key, index) => (
                     <Form.Check
                             inline
-                            defaultChecked={time === animalRunningTime[key]}
-                            label={settingText.time[key]}
+                            defaultChecked={time === timeValues[index]}
+                            label={timeTextValues[index]}
                             name="group2"
                             type={'radio'}
-                            onChange={(e) => { onChangeTime(e, key) }}
+                            onChange={(e) => { onChangeTime(index) }}
                             id={`inline-${key}-2`}
                         />
                     ))}
