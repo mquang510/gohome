@@ -107,13 +107,31 @@ export default function Layout() {
     const [isAnimalRunning, setAnimalRunning] = useState(true)
     const [animalRunningId, setAnimalRunningId] = useState<NodeJS.Timeout>()
     const [isOpenSetting, setOpenSetting] = useState(false)
-   
+    const [time, setTime] = useState(1)
+    const [isTimeRunning, setTimeRunning] = useState(false)
+    const [timeRunningId, setTimeRunningId] = useState<NodeJS.Timeout>()
+    useEffect(() => {
+        if (isTimeRunning && !timeRunningId) {
+            setTime(1)
+            const id = setInterval(() => {
+                setTime((prevTime) => {
+                    return prevTime + 1
+                })
+            }, 1000)
+            setTimeRunningId(id)
+        }
+        else if (!isTimeRunning) {
+            clearInterval(timeRunningId)
+            setTimeRunningId(undefined)
+        }
+    }, [isTimeRunning, timeRunningId]);
     useEffect(() => {
         localStorage.setItem(firstTimeKey, JSON.stringify(isFirstTime))
     }, [isFirstTime])
 
     useEffect(() => {
         setAnimalRunning(!(isCompleted || isOpenSetting))
+        setTimeRunning(!(isCompleted || isOpenSetting))
     }, [isCompleted, isOpenSetting])
 
     useEffect(() => {
@@ -172,7 +190,8 @@ export default function Layout() {
                 isCompleted={isCompleted} 
                 onHide={resetPopupHide}
                 isFailed={!isEqual(lastestPoint, end)}
-                total={points.length - 1}/>
+                total={points.length - 1}
+                time={time}/>
             <SettingPopup 
             isOpenSetting={isOpenSetting} 
             onHide={() => setOpenSetting(false)} 

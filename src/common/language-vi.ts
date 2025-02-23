@@ -15,7 +15,9 @@ export const resultText = {
     information: 'Tổng số bước đã di chuyển: ',
     buttons: {
         start: 'Chơi lại'
-    }
+    },
+    time: 'Thời gian:',
+    second: 's'
 }
 
 export const failText = {
@@ -24,7 +26,9 @@ export const failText = {
     information: 'Tổng số bước đã di chuyển: ',
     buttons: {
         start: 'Chơi lại'
-    }
+    },
+    time: 'Thời gian:',
+    second: 's'
 }
 
 export const settingText = {

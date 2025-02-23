@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { failText, resultText } from '../../common/language-vi.ts'
 
-export default function ResultPopup({ isCompleted, onHide, total, isFailed } : any) {
+export default function ResultPopup({ isCompleted, onHide, total, isFailed, time } : any) {
   let text = isFailed ? failText : resultText
   return (
     <>
@@ -17,6 +17,9 @@ export default function ResultPopup({ isCompleted, onHide, total, isFailed } : a
           </div>
           <div className='mb-3'>
             {text.information} {total}
+          </div>
+          <div className='mb-3'>
+            {text.time} {time}{text.second}
           </div>
         </Modal.Body>
         <Modal.Footer>
