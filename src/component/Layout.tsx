@@ -26,6 +26,7 @@ import PointInterface from "../interfaces/Point.ts"
 import InformationPopup from "./popup/information.tsx"
 import ResultPopup from "./popup/result.tsx"
 import SettingPopup from "./popup/settings.tsx"
+import { introGame } from "../common/language-vi.ts"
 
 export default function Layout() {
     const start: PointInterface = startPoint
@@ -193,10 +194,11 @@ export default function Layout() {
                 total={points.length - 1}
                 time={time}/>
             <SettingPopup 
-            isOpenSetting={isOpenSetting} 
-            onHide={() => setOpenSetting(false)} 
-            settings={settings}
-            onUpdate={updateSettings} />
+                isOpenSetting={isOpenSetting} 
+                onHide={() => setOpenSetting(false)} 
+                settings={settings}
+                onUpdate={updateSettings} />
+            <div className='intro-game'>{introGame}</div>
         </div>
     )
 }

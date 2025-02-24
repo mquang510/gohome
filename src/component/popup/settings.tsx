@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { settingText } from '../../common/language-vi';
+import { settingText } from '../../common/language-vi.ts';
 import { Form } from 'react-bootstrap';
-import { animalRunningTime, obstacleLevel } from '../../common/constants';
+import { animalRunningTime, obstacleLevel } from '../../common/constants.ts';
 import _ from 'lodash'
 
 export default function SettingPopup({ isOpenSetting, onUpdate, onHide, settings } : any) {

@@ -1,8 +1,9 @@
+export const introGame = 'Trò chơi được viết bởi minhquang219@gmail.com'
 export const informationText = {
     header: 'Hướng dẫn',
     body: 'Trò chơi tìm đường về nhà.',
     instruction: 'Sử dụng phím để di chuyển:',
-    intro: 'Trò chơi được viết bởi minhquang219@gmail.com',
+    
     setting: 'Nhấn F1 để thay đổi cài đặt trò chơi.',
     buttons: {
         start: 'Bắt đầu'

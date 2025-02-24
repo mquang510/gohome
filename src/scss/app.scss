@@ -63,6 +63,15 @@
         .point:after {
             transform: rotate(-45deg);
         }
+
+        .intro-game {
+            opacity: 0.5;
+            position: absolute;
+            z-index: 3;
+            bottom: 0px;
+            width: 100%;
+            text-align: center;
+        }
     }
     
 }
