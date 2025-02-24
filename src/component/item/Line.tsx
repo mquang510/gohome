@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react"
-import { px } from "../../common/constants"
+import { px } from "../../common/constants.ts"
 
 export default function Line({ start, end, attr }: any) {
     const ref = useRef<HTMLDivElement>(null)

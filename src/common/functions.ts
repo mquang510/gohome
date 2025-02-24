@@ -11,16 +11,8 @@ const onSegment = (p: any, q: any, r: any) => {
     return false; 
 } 
   
-// To find orientation of ordered triplet (p, q, r). 
-// The function returns following values 
-// 0 --> p, q and r are collinear 
-// 1 --> Clockwise 
-// 2 --> Counterclockwise 
 const orientation = (p: any, q: any, r: any) => { 
-  
-    // See https://www.geeksforgeeks.org/orientation-3-ordered-points/ 
-    // for details of below formula. 
-    let val = (q.y - p.y) * (r.x - q.x) - 
+    const val = (q.y - p.y) * (r.x - q.x) - 
             (q.x - p.x) * (r.y - q.y); 
     
     if (val === 0) return 0; // collinear 
@@ -28,18 +20,12 @@ const orientation = (p: any, q: any, r: any) => {
     return (val > 0)? 1: 2; // clock or counterclock wise 
 } 
   
-// The main function that returns true if line segment 'p1q1' 
-// and 'p2q2' intersect. 
-const doIntersect = (p1: any, q1: any, p2: any, q2: any) => { 
-  
-    // Find the four orientations needed for general and 
-    // special cases 
+const isIntersect = (p1: any, q1: any, p2: any, q2: any) => { 
     let o1 = orientation(p1, q1, p2); 
     let o2 = orientation(p1, q1, q2); 
     let o3 = orientation(p2, q2, p1); 
     let o4 = orientation(p2, q2, q1); 
     
-    // General case 
     if (o1 !== o2 && o3 !== o4) 
         return true; 
     
@@ -56,17 +42,17 @@ const doIntersect = (p1: any, q1: any, p2: any, q2: any) => {
     // p2, q2 and q1 are collinear and q1 lies on segment p2q2 
     if (o4 === 0 && onSegment(p2, q1, q2)) return true; 
     
-    return false; // Doesn't fall in any of the above cases 
+    return false;
 } 
 
 const validateLine = (start: Point, end: Point, obstacles: ObstacleInterface[], directions: direction[]) : ResultValidate => {
     const a = obstacles.find((item) => {
-        const b = doIntersect(start, end, item, {
+        const b = isIntersect(start, end, item, {
             x: item.x + item.width,
             y: item.y
         })
 
-        const c = doIntersect(start, end,  {
+        const c = isIntersect(start, end,  {
             x: item.x + item.width,
             y: item.y
         }, {
@@ -74,12 +60,12 @@ const validateLine = (start: Point, end: Point, obstacles: ObstacleInterface[], 
             y: item.y + item.height
         })
 
-        const d = doIntersect(start, end, item, {
+        const d = isIntersect(start, end, item, {
             x: item.x,
             y: item.y + item.height
         })
 
-        const e = doIntersect(start, end, {
+        const e = isIntersect(start, end, {
             x: item.x,
             y: item.y + item.height
         }, {
@@ -98,12 +84,12 @@ const validateLine = (start: Point, end: Point, obstacles: ObstacleInterface[], 
 
 const validateLine1 = (start: Point, end: Point, obstacles: ObstacleInterface[], directions: direction[]) : ResultValidate => {
     const a = obstacles.find((item) => {
-        const isIntersectTop = doIntersect(start, end, item, {
+        const isIntersectTop = isIntersect(start, end, item, {
             x: item.x + item.width,
             y: item.y
         })
 
-        const isIntersectRight = doIntersect(start, end,  {
+        const isIntersectRight = isIntersect(start, end,  {
             x: item.x + item.width,
             y: item.y
         }, {
@@ -111,12 +97,12 @@ const validateLine1 = (start: Point, end: Point, obstacles: ObstacleInterface[],
             y: item.y + item.height
         })
 
-        const isIntersectLeft = doIntersect(start, end, item, {
+        const isIntersectLeft = isIntersect(start, end, item, {
             x: item.x,
             y: item.y + item.height
         })
 
-        const isIntersectBottom = doIntersect(start, end, {
+        const isIntersectBottom = isIntersect(start, end, {
             x: item.x,
             y: item.y + item.height
         }, {
@@ -126,7 +112,7 @@ const validateLine1 = (start: Point, end: Point, obstacles: ObstacleInterface[],
         const isValid = isIntersectTop || isIntersectRight || isIntersectLeft || isIntersectBottom
         if (isValid) {
             item.direction = isIntersectTop ? direction.top :
-            isIntersectRight ? direction.top :
+            isIntersectRight ? direction.right :
             isIntersectLeft ? direction.left : direction.bottom
         }
 

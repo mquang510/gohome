@@ -18,6 +18,6 @@ export default function Image({ position, src }: any) {
     }, [position])
     
     return (<div className="image-swapper">
-        <img ref={ref} src={src} className="image" style={style}></img>
+        <img ref={ref} src={src} className="image" style={style} alt=""></img>
     </div>)
 }
