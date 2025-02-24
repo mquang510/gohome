@@ -9,11 +9,13 @@ import {
     windowWidth,
     windowHeight,
     windowKeyDownEvent,
-    isFirstTimeKey,
     obstacleLevel,
     animalRunningTime,
-    diameterEndPoint,
-    diameterStartPoint
+    diameterStartPoint,
+    startPoint,
+    f1,
+    firstTimeKey,
+    settingsKey
 } from "../common/constants.ts"
 import { useState, useEffect } from 'react'
 import Image from './item/Image.tsx'
@@ -23,17 +25,18 @@ import ObstacleInterface from "../interfaces/Obstacle.ts"
 import PointInterface from "../interfaces/Point.ts"
 import InformationPopup from "./popup/information.tsx"
 import ResultPopup from "./popup/result.tsx"
+import SettingPopup from "./popup/settings.tsx"
+import { introGame } from "../common/language-vi.ts"
 
 export default function Layout() {
-    const start: PointInterface = {
-        x: 50,
-        y: 50
-    }
-    const initObstacle = () => {
-        const obstacleItems = randomObstacles(obstacleLevel.hard, windowWidth, windowHeight)
-        return obstacleItems
-    }
+    const start: PointInterface = startPoint
+    
     const keydown = (event: KeyboardEvent) => {
+        if (event.key === f1) {
+            event.preventDefault()
+            setOpenSetting(true)
+            return
+        }
         if (isCompleted) return
         if (points.length === 0) {
             points.push(start)
@@ -72,29 +75,65 @@ export default function Layout() {
         changePositionAnimals(obstacles)
         setObstacles([...obstacles])
     }
-    const initAnimalRunning = () => {
-        const id = setInterval(processAnimalRunning, animalRunningTime.normal)
-        setAnimalRunningId(id)
+   
+    const updateSettings = (newSettings: any) => {
+        localStorage.setItem(settingsKey, JSON.stringify(newSettings))
+        setSettings(newSettings)
+        setOpenSetting(false)
+        setReset(true)
     }
     // const end: PointInterface = createEndPoint()
-    const localStorageIsFirstTime = localStorage.getItem(isFirstTimeKey)
+    const localStorageIsFirstTime = localStorage.getItem(firstTimeKey)
     const isFirstTimeDefault = !!localStorageIsFirstTime ? JSON.parse(localStorageIsFirstTime) : true
     let [end, setEndPoint] = useState(createEndPoint())
     const [points, setPoints] = useState([start])
     const [isFirstTime, setFirstTime] = useState(isFirstTimeDefault)
     const [isCompleted, setCompleted] = useState(false)
     const [isReset, setReset] = useState(false)
+    const localStorageSettings = localStorage.getItem(settingsKey)
+    const settingsDefault = !!localStorageSettings ? JSON.parse(localStorageSettings) : {
+        level: obstacleLevel.hard,
+        time: animalRunningTime.hard
+    }
+    const [settings, setSettings] = useState(settingsDefault)
+    const initObstacle = () => {
+        const obstacleItems = randomObstacles(settings.level, windowWidth, windowHeight)
+        return obstacleItems
+    }
+    const initAnimalRunning = () => {
+        const id = setInterval(processAnimalRunning, settings.time)
+        setAnimalRunningId(id)
+    }
     let [obstacles, setObstacles] = useState<ObstacleInterface[]>(initObstacle())
     const [isAnimalRunning, setAnimalRunning] = useState(true)
     const [animalRunningId, setAnimalRunningId] = useState<NodeJS.Timeout>()
-    
+    const [isOpenSetting, setOpenSetting] = useState(false)
+    const [time, setTime] = useState(1)
+    const [isTimeRunning, setTimeRunning] = useState(false)
+    const [timeRunningId, setTimeRunningId] = useState<NodeJS.Timeout>()
     useEffect(() => {
-        localStorage.setItem(isFirstTimeKey, JSON.stringify(isFirstTime))
+        if (isTimeRunning && !timeRunningId) {
+            setTime(1)
+            const id = setInterval(() => {
+                setTime((prevTime) => {
+                    return prevTime + 1
+                })
+            }, 1000)
+            setTimeRunningId(id)
+        }
+        else if (!isTimeRunning) {
+            clearInterval(timeRunningId)
+            setTimeRunningId(undefined)
+        }
+    }, [isTimeRunning, timeRunningId]);
+    useEffect(() => {
+        localStorage.setItem(firstTimeKey, JSON.stringify(isFirstTime))
     }, [isFirstTime])
 
     useEffect(() => {
-        setAnimalRunning(!isCompleted)
-    }, [isCompleted])
+        setAnimalRunning(!(isCompleted || isOpenSetting))
+        setTimeRunning(!(isCompleted || isOpenSetting))
+    }, [isCompleted, isOpenSetting])
 
     useEffect(() => {
         if (isAnimalRunning && !animalRunningId) {
@@ -150,8 +189,16 @@ export default function Layout() {
             <InformationPopup isFirstTime={isFirstTime} onHide={() => setFirstTime(false)} />
             <ResultPopup 
                 isCompleted={isCompleted} 
-                onHide={resetPopupHide} 
-                total={points.length - 1}/>
+                onHide={resetPopupHide}
+                isFailed={!isEqual(lastestPoint, end)}
+                total={points.length - 1}
+                time={time}/>
+            <SettingPopup 
+                isOpenSetting={isOpenSetting} 
+                onHide={() => setOpenSetting(false)} 
+                settings={settings}
+                onUpdate={updateSettings} />
+            <div className='intro-game'>{introGame}</div>
         </div>
     )
 }
