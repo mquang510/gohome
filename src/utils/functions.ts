@@ -1,6 +1,6 @@
-import ObstacleInterface from "../interfaces/Obstacle.ts"
-import Point from "../interfaces/Point.ts"
-import ResultValidate from "../interfaces/ResultValidate.ts";
+import ObstacleInterface from "../domain/Obstacle.ts"
+import Point from "../domain/Point.ts"
+import ResultValidate from "../domain/ResultValidate.ts";
 import { defaultLength, direction, endpointMarginRow, keydownEnum, obstacleLength, obstacleObjects, windowHeight, windowMinHeight, windowMinWidth, windowWidth } from "./constants.ts"
 import _ from 'lodash'
 const onSegment = (p: any, q: any, r: any) => { 

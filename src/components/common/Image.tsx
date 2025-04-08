@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from "react"
-import { diameterStartPoint, px } from "../../common/constants.ts"
+import React, { useRef, useEffect, useLayoutEffect } from "react"
+import { diameterStartPoint, px } from "../../utils/constants.ts"
 
 export default function Image({ position, src }: any) {
     const ref = useRef<HTMLImageElement>(null)
-    function getValue (a:number) {
+    const getValue = (a:number) => {
         return a - diameterStartPoint/2 + 1
     }
     const style = { 
@@ -11,7 +11,7 @@ export default function Image({ position, src }: any) {
         left: getValue(position.x),
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!ref.current) return
         ref.current.style.top = `${getValue(position.y)} ${px}`
         ref.current.style.left = `${getValue(position.x)} ${px}`
