@@ -1,13 +1,10 @@
-import { direction } from "../common/constants"
+import { direction } from "../utils/enums"
 
-interface ObstacleInterface {
-    x: number,
-    y: number,
-    src: string,
-    width: number,
-    height: number,
-    direction?: direction
-  }
-  
-  export default ObstacleInterface
-  
+export default interface ObstacleInterface {
+  x: number,
+  y: number,
+  src: string,
+  width: number,
+  height: number,
+  direction?: direction
+}

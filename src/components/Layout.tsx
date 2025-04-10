@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useMemo } from "react"
+import React, { useContext } from "react"
 import Circle from './common/Circle.tsx'
 import Obstacle from './common/Obstacle.tsx'
 import { 
@@ -32,6 +32,7 @@ import ResultPopup from "./popup/result.tsx"
 import SettingPopup from "./popup/settings.tsx"
 import { introGame } from "../utils/language-vi.ts"
 import { SettingContext } from "../app/context/SettingContext.tsx"
+import { settingActions } from "../utils/enums.ts"
 
 export default function Layout() {
     const { state, dispatch } = useContext(SettingContext)
@@ -79,14 +80,14 @@ export default function Layout() {
     }
    
     const updateSettings = (newSettings: any) => {
-        dispatch({ type: 'SetConfig', payload: {
+        dispatch({ type: settingActions.setConfig, payload: {
             config: newSettings
         }})
         setOpenSetting(false)
         setReset(true)
     }
     const setIsFirstTime = (value) => {
-        dispatch({ type: 'SetIsFirstTime', payload: {
+        dispatch({ type: settingActions.setIsFirstTime, payload: {
             isFirstTime: value
         }})
     }

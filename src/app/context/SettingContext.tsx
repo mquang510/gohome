@@ -3,6 +3,7 @@ import React from 'react';
 import { animalRunningTime, firstTimeKey, obstacleLevel, settingsKey } from '../../utils/constants.ts';
 import { settingReducer } from '../reducers/SettingReducer.ts';
 import { SettingAction, SettingState } from '../../domain/Setting.ts';
+import { settingActions } from '../../utils/enums.ts';
 
 const initialState = {
     isFirstTime: true,
@@ -25,7 +26,7 @@ export default function SettingProvider ({ children }: { children: ReactNode }) 
   useEffect(() => {
     const localStorageIsFirstTime = localStorage.getItem(firstTimeKey)
     const isFirstTimeDefault = !!localStorageIsFirstTime ? JSON.parse(localStorageIsFirstTime) : true
-    dispatch({ type: 'SetIsFirstTime', payload: {
+    dispatch({ type: settingActions.setIsFirstTime, payload: {
         isFirstTime: isFirstTimeDefault
     }})
   }, [])
@@ -36,7 +37,7 @@ export default function SettingProvider ({ children }: { children: ReactNode }) 
         level: obstacleLevel.hard,
         time: animalRunningTime.hard
     }
-    dispatch({ type: 'SetConfig', payload: {
+    dispatch({ type: settingActions.setConfig, payload: {
         config: settingsDefault
     }})
   }, [])

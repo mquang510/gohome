@@ -1,3 +1,5 @@
+import { settingActions } from '../utils/enums'
+
 export type SettingState = { 
     isFirstTime?: boolean,
     config?: {
@@ -7,6 +9,6 @@ export type SettingState = {
 }
 
 export type SettingAction = { 
-    type: 'SetIsFirstTime' | 'SetConfig',
+    type: settingActions.setIsFirstTime | settingActions.setConfig,
     payload: SettingState
 }
