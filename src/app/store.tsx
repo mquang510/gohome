@@ -1,6 +1,6 @@
 import React from 'react';
-import AuthProvider from './context/AuthContext.tsx';
+import SettingProvider from './context/SettingContext.tsx';
 
 export const AppStoreProvider = ({ children }: { children: React.ReactNode }) => {
-  return <AuthProvider>{children}</AuthProvider>;
+  return <SettingProvider>{children}</SettingProvider>;
 };
