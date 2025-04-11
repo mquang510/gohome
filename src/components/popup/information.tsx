@@ -2,6 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { informationText } from '../../utils/language-vi'
+import keys from '../../assets/keys.png';
 
 export default function InformationPopup({ isFirstTime, onHide }: any) {
   return (
@@ -16,7 +17,7 @@ export default function InformationPopup({ isFirstTime, onHide }: any) {
           </div>
           <div className='mb-3'>
             {informationText.instruction} 
-            <img src={"image/keys.png"} className="image-keys" alt=''></img>
+            <img src={keys} className="image-keys" alt=''></img>
           </div>
           <div className='mb-3'>
             {informationText.setting}

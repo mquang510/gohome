@@ -1,8 +1,13 @@
+import wolfImage from '../assets/wolf.png'
+import dinosaurImage from '../assets/dinosaur.png'
+import tigerImage from '../assets/tiger.png'
+import tyrannosaurusImage from '../assets/tyrannosaurus.png'
+
 export enum imageEnum {
-    wolf = '/image/wolf.png',
-    dinosaur = '/image/dinosaur.png',
-    tiger = '/image/tiger.png',
-    tyrannosaurus = '/image/tyrannosaurus.png',
+    wolf = wolfImage,
+    dinosaur = dinosaurImage,
+    tiger = tigerImage,
+    tyrannosaurus = tyrannosaurusImage,
 }
 
 export enum  settingActions {

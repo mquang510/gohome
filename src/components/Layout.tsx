@@ -33,6 +33,7 @@ import SettingPopup from "./popup/settings"
 import { introGame } from "../utils/language-vi"
 import { SettingContext } from "../app/context/SettingContext"
 import { settingActions } from "../utils/enums"
+import people from '../assets/people.png'
 
 export default function Layout() {
     const { state, dispatch } = useContext(SettingContext)
@@ -193,7 +194,7 @@ export default function Layout() {
             <SystemLine />
             <Image
                 position={lastestPoint}
-                src={"/image/people.png"}
+                src={people}
                 />
             {!isEqual(start, lastestPoint) ? <Point position={start} diameter={diameterStartPoint}/> : '' }
             <InformationPopup isFirstTime={state.isFirstTime} onHide={() => setIsFirstTime(false)} />
