@@ -14,12 +14,10 @@
     "tsx": "^4.19.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "wpstart": "webpack serve --open",
-    "wpbuild": "webpack"
+    "start": "webpack serve --open",
+    "build": "webpack"
   },
   "eslintConfig": {
     "extends": [
