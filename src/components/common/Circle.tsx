@@ -1,5 +1,5 @@
 import React from "react"
-import { diameterEndPoint } from "../../utils/constants.ts"
+import { diameterEndPoint } from "../../utils/constants"
 
 export default function Circle({ position }: any) {
     const style = {

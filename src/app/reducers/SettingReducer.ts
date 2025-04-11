@@ -1,5 +1,5 @@
 import { SettingAction, SettingState } from "../../domain/Setting";
-import { firstTimeKey, settingsKey } from "../../utils/constants.ts";
+import { firstTimeKey, settingsKey } from "../../utils/constants";
 
 export function settingReducer(state: SettingState, action: SettingAction): SettingState {
   switch (action.type) {

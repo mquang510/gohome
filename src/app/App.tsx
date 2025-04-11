@@ -3,7 +3,7 @@ import '../scss/animation.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import AppRoutes from '../routes/AppRoutes.tsx';
+import AppRoutes from '../routes/AppRoutes';
 
 function App() {
   return (

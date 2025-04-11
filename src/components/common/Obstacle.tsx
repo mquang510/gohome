@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react"
-import { px } from "../../utils/constants.ts"
+import { px } from "../../utils/constants"
 
 export default function Obstacle({ obstacle } : any) {
     const ref = useRef<HTMLImageElement>(null)

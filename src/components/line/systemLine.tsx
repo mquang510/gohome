@@ -1,12 +1,12 @@
 import React from "react";
-import { createSystemLines } from "../../utils/functions.ts";
-import Point from "../../domain/Point.ts";
-import Line from "../common/Line.tsx";
+import { createSystemLines } from "../../utils/functions";
+import Point from "../../domain/Point";
+import Line from "../common/Line";
 import {
     windowWidth,
     windowHeight,
     windowMargin
-} from "../../utils/constants.ts"
+} from "../../utils/constants"
 
 export default function SystemLine() {
     const startPoint : Point = {

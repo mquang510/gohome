@@ -1,6 +1,6 @@
 import React from "react"
-import Line from '../common/Line.tsx'
-import PointInterface from "../../domain/Point.ts"
+import Line from '../common/Line'
+import PointInterface from "../../domain/Point"
 
 export default function MainLine({ points }: any) {
     function renderLine (a: PointInterface, b: PointInterface) {

@@ -1,9 +1,9 @@
 import { createContext, useReducer, ReactNode, useEffect } from 'react';
 import React from 'react';
-import { animalRunningTime, firstTimeKey, obstacleLevel, settingsKey } from '../../utils/constants.ts';
-import { settingReducer } from '../reducers/SettingReducer.ts';
-import { SettingAction, SettingState } from '../../domain/Setting.ts';
-import { settingActions } from '../../utils/enums.ts';
+import { animalRunningTime, firstTimeKey, obstacleLevel, settingsKey } from '../../utils/constants';
+import { settingReducer } from '../reducers/SettingReducer';
+import { SettingAction, SettingState } from '../../domain/Setting';
+import { settingActions } from '../../utils/enums';
 
 const initialState = {
     isFirstTime: true,

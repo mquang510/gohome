@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { failText, resultText } from '../../utils/language-vi.ts'
+import { failText, resultText } from '../../utils/language-vi'
 
 export default function ResultPopup({ isCompleted, onHide, total, isFailed, time } : any) {
   let text = isFailed ? failText : resultText

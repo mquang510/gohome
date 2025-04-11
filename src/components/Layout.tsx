@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext } from "react"
-import Circle from './common/Circle.tsx'
-import Obstacle from './common/Obstacle.tsx'
+import Circle from './common/Circle'
+import Obstacle from './common/Obstacle'
 import { 
     changePositionAnimals, 
     convertKeyDownToDirect, 
@@ -10,9 +10,9 @@ import {
     getIntersectPoint, 
     randomObstacles, 
     validateIsOutScreen, 
-    validateLine1 } from '../utils/functions.ts'
-import MainLine from "./line/mainLine.tsx"
-import SystemLine from "./line/systemLine.tsx"
+    validateLine1 } from '../utils/functions'
+import MainLine from "./line/mainLine"
+import SystemLine from "./line/systemLine"
 import { 
     windowWidth,
     windowHeight,
@@ -20,19 +20,19 @@ import {
     diameterStartPoint,
     startPoint,
     f1
-} from "../utils/constants.ts"
+} from "../utils/constants"
 import { useState, useEffect } from 'react'
-import Image from './common/Image.tsx'
-import Point from './common/Point.tsx'
+import Image from './common/Image'
+import Point from './common/Point'
 import isEqual from 'lodash/isEqual'
-import ObstacleInterface from "../domain/Obstacle.ts"
-import PointInterface from "../domain/Point.ts"
-import InformationPopup from "./popup/information.tsx"
-import ResultPopup from "./popup/result.tsx"
-import SettingPopup from "./popup/settings.tsx"
-import { introGame } from "../utils/language-vi.ts"
-import { SettingContext } from "../app/context/SettingContext.tsx"
-import { settingActions } from "../utils/enums.ts"
+import ObstacleInterface from "../domain/Obstacle"
+import PointInterface from "../domain/Point"
+import InformationPopup from "./popup/information"
+import ResultPopup from "./popup/result"
+import SettingPopup from "./popup/settings"
+import { introGame } from "../utils/language-vi"
+import { SettingContext } from "../app/context/SettingContext"
+import { settingActions } from "../utils/enums"
 
 export default function Layout() {
     const { state, dispatch } = useContext(SettingContext)
@@ -86,7 +86,7 @@ export default function Layout() {
         setOpenSetting(false)
         setReset(true)
     }
-    const setIsFirstTime = (value) => {
+    const setIsFirstTime = (value: boolean) => {
         dispatch({ type: settingActions.setIsFirstTime, payload: {
             isFirstTime: value
         }})
@@ -95,19 +95,19 @@ export default function Layout() {
     const [points, setPoints] = useState([start])
     const [isCompleted, setCompleted] = useState(false)
     const [isReset, setReset] = useState(false)
-    const obstacleInitItems = []
+    const obstacleInitItems: ObstacleInterface[] = []
     let [obstacles, setObstacles] = useState<ObstacleInterface[]>(obstacleInitItems)
     const initObstacle = () => {
         const obstacleItems = randomObstacles(state.config?.level, windowWidth, windowHeight)
         return obstacleItems
     }
-    const initAnimalRunning = (items) => {
+    const initAnimalRunning = (items: ObstacleInterface[]) => {
         const id = setInterval(() => {
             processAnimalRunning(items)
         }, state.config?.time)
         setAnimalRunningId(id)
     }
-    const processAnimalRunning = (items) => {
+    const processAnimalRunning = (items: ObstacleInterface[]) => {
         changePositionAnimals(items)
         setObstacles([...items])
     }

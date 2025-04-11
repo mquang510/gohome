@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useLayoutEffect } from "react"
-import { diameterStartPoint, px } from "../../utils/constants.ts"
+import { diameterStartPoint, px } from "../../utils/constants"
 
 export default function Image({ position, src }: any) {
     const ref = useRef<HTMLImageElement>(null)

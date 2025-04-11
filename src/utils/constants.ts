@@ -1,4 +1,4 @@
-import { direction, imageEnum } from "./enums.ts"
+import { direction, imageEnum } from "./enums"
 
 export const defaultLength = 50
 export const obstacleLength = 40

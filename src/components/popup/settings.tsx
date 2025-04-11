@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { settingText } from '../../utils/language-vi.ts';
+import { settingText } from '../../utils/language-vi';
 import { Form } from 'react-bootstrap';
-import { animalRunningTime, obstacleLevel } from '../../utils/constants.ts';
+import { animalRunningTime, obstacleLevel } from '../../utils/constants';
 import _ from 'lodash'
-import { useOption } from '../../hooks/Options.ts';
+import { useOption } from '../../hooks/Options';
 
 export default function SettingPopup({ isOpenSetting, onUpdate, onHide, settings } : any) {
     const levelKeys = useMemo(() => {

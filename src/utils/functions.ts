@@ -1,6 +1,6 @@
-import ObstacleInterface from "../domain/Obstacle.ts"
-import Point from "../domain/Point.ts"
-import ResultValidate from "../domain/ResultValidate.ts"
+import ObstacleInterface from "../domain/Obstacle"
+import Point from "../domain/Point"
+import ResultValidate from "../domain/ResultValidate"
 import { 
     defaultLength, 
     endpointMarginRow, 
@@ -9,9 +9,9 @@ import {
     windowHeight, 
     windowMinHeight,
     windowMinWidth, 
-    windowWidth } from "./constants.ts"
+    windowWidth } from "./constants"
 import _ from 'lodash'
-import { direction, keydownEnum } from "./enums.ts"
+import { direction, keydownEnum } from "./enums"
 
 const onSegment = (p: any, q: any, r: any) => { 
     if (q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) && 

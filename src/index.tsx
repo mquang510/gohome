@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './app/App.tsx';
-import { AppStoreProvider } from './app/store.tsx';
+import './scss/index.scss';
+import App from './app/App';
+import { AppStoreProvider } from './app/store';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <AppStoreProvider>
-    <App />
-  </AppStoreProvider>
-);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <AppStoreProvider>
+      <App />
+    </AppStoreProvider>
+  );
+}
+
